@@ -1,0 +1,24 @@
+.main {
+    padding: 0.8rem 2rem;
+    min-width: 10rem;
+
+    span {
+        font-size: 1.6rem;
+    }
+}
+
+.shared {
+    border: 1px solid black;
+}
+
+.fill {
+    background-color: #000000;
+    color: white;
+    @extend .shared;
+}
+
+.stroke {
+    color: blue($color: #000000);
+    background-color: white;
+    @extend .shared;
+}
