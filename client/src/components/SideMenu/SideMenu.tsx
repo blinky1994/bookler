@@ -12,9 +12,11 @@ const SideMenu = () => {
             <div className={styles.content}>
                 <span>Login to manage bookings</span>
                 <Link to={'/login'}>
-                    <Button style={buttonStyle.fill}>Log In</Button>
+                    <Button buttonStyle={buttonStyle.fill}>Log In</Button>
                 </Link>
-                <Button style={buttonStyle.stroke}>Sign Up</Button>
+                <Link to={'/signup'}>
+                    <Button buttonStyle={buttonStyle.stroke}>Sign Up</Button>
+                </Link>
             </div>
         </div>  
     </>

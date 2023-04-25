@@ -1,8 +1,9 @@
 import styles from './Button.module.scss'
 import { ReactNode } from 'react';
+import { HTMLAttributes } from 'react';
 
-interface IButtonProps {
-    style: string;
+interface IButtonProps extends HTMLAttributes<HTMLButtonElement> {
+    buttonStyle: string;
     children: ReactNode;
 }
 
@@ -15,9 +16,9 @@ export const buttonStyle : IButtonStyle = {
     stroke: styles.stroke
 }
 
-const Button : React.FC<IButtonProps> = ({style, children}) => {
+const Button : React.FC<IButtonProps> = ({buttonStyle, children, ...rest}) => {
   return (
-    <button className={`${styles.main} ${style}`}>
+    <button className={`${styles.main} ${buttonStyle}`} {...rest}>
         <span>
             {children}
         </span>
