@@ -1,15 +1,25 @@
-import './App.scss';
-import NavBar from './components/./NavBar/NavBar';
-import FacilitiesSection from './components/FacilitiesSection/FacilitiesSection';
-import SideMenu from './components/SideMenu/SideMenu';
+import HomePage from "./pages/HomePage/HomePage";
+import LoginPage from "./pages/Login/LoginPage";
+import SignUpPage from "./pages/SignUpPage/SignUpPage";
+
+import {
+  BrowserRouter,
+  Routes, 
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
   return (
-    <div className="app">
-      <SideMenu />
-      <NavBar />
-      <FacilitiesSection />
-    </div>
+    <BrowserRouter>
+      <div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+      </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

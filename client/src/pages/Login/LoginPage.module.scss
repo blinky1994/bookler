@@ -1,0 +1,49 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+
+    h1 {
+        position: absolute;
+        font-weight: normal;
+        font-size: 2.4rem;
+        top: 0%;
+    }  
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        h2 {
+            font-size: 2.0rem;
+            font-weight: normal;
+        }
+
+        .formFields {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            gap: 1rem;
+
+            .formField {
+                width: 75%;
+                max-width: 28rem;
+                height: 3.2rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        .buttons {
+            margin-top: 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+}
