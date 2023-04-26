@@ -1,22 +1,19 @@
 import { Request, Response } from "express";
 import db from '../../services/db';
-import bcrypt from 'bcrypt';
+import { hashPassword } from "../../utils/bcrypt";
 
 export async function signup(req : Request, res: Response) {
     const { email, password } = req.body;
     try {
-        const response = await createUser(email, password);
+        const user = await createUser(email, password);
         console.log('Successfully created user');
         res.status(200).json({
-            user: {
-                id: response[0][0].id,
-                email: response[0][0].email
-            }
+            user
         })
-    } catch (err) {
+    } catch (err : any) {
         console.log('Error creating user: ', err);
         res.status(400).json({
-            error: err
+            error: err.toString()
         })
     }
 }
@@ -29,17 +26,17 @@ async function createUser(email: string, password: string) {
 }
 
 
-async function hashPassword(password: string) : Promise<string> {
-    return await bcrypt.hash(password, 5);
-}
-
-
 async function getUserFromDB(email: string) {
     let sql = `
         SELECT id, email FROM users WHERE email = '${email}';
     `;
 
-    return await db.query(sql);
+    const response = await db.query(sql);
+
+    return {
+        id: response[0][0].id,
+        email: response[0][0].email
+    }
 }
 
 
