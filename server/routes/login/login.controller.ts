@@ -11,20 +11,10 @@ export async function login(req : Request, res: Response) {
     }  else {
         const { login, password } = formDetails;
 
-        let hashedPassword = '';
-        // Retrieve user here
-        bcrypt
-        .hash(password, 5)
-        .then((hash : string) => {
-            console.log('Hash ', hash)
-            bcrypt.compare('testpassword', hash).then((result : boolean) => {
-                console.log({result});
-            });
-        })
-        .catch((err : Error) => console.error(err.message));
-
-       
-
+        // bcrypt.compare('testpassword', hash).then((result : boolean) => {
+        //     console.log({result});
+        // });
+        
         res.status(200).json({
             user: {
                 id: '123',
