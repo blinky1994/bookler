@@ -3,29 +3,21 @@ import db from '../../services/db';
 import bcrypt from 'bcrypt';
 
 export async function signup(req : Request, res: Response) {
-    const { formDetails } = req.body;
-
-    if (!formDetails) {
-        res.status(404).json({
-            message: 'Incomplete form details'
+    const { email, password } = req.body;
+    try {
+        const response = await createUser(email, password);
+        console.log('Successfully created user');
+        res.status(200).json({
+            user: {
+                id: response[0][0].id,
+                email: response[0][0].email
+            }
         })
-    }  else {
-        const { email, password } = formDetails;
-        try {
-            const response = await createUser(email, password);
-            console.log('Successfully created user');
-            res.status(200).json({
-                user: {
-                    id: response[0][0].id,
-                    email: response[0][0].email
-                }
-            })
-        } catch (err) {
-            console.log('Error creating user: ', err);
-            res.status(400).json({
-                error: err
-            })
-        }
+    } catch (err) {
+        console.log('Error creating user: ', err);
+        res.status(400).json({
+            error: err
+        })
     }
 }
 

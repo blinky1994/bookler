@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import TextInput from '../../components/TextInput/TextInput'
 import { validateSignUp } from '../../utils/validateForm'
+import axios from 'axios';
 
 export interface ISignUpForm {
     email: string;
@@ -40,15 +41,26 @@ const SignUpPage = () => {
 
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (validateSignUp(formDetails, setFormDetails)) {
-            setFormDetails({
-                email: '',
-                emailError: '',
-                password: '',
-                passwordError: '',
-                confirmPassword: '',
-                confirmPasswordError: ''
+            const { email, password } = formDetails;
+            
+            axios.post('http://localhost:3001/signup', {
+                email, password
             })
-            console.log(`Successful: ${formDetails.email} ${formDetails.password}`);
+            .then(response => {
+                setFormDetails({
+                    email: '',
+                    emailError: '',
+                    password: '',
+                    passwordError: '',
+                    confirmPassword: '',
+                    confirmPasswordError: ''
+                })
+                console.log(`Successfully created user: ${JSON.stringify(response.data.user)}`);
+                const {id, email} = response.data.user;
+                
+            }).catch(err => {
+                console.log('Error signing up: ', err.response.data.error);
+            })
         };
     }
 
