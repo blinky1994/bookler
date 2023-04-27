@@ -2,6 +2,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/Login/LoginPage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import { UserContextProvider } from "./context/user.context";
+import { MenuContextProvider } from "./context/menu.context";
 
 import {
   BrowserRouter,
@@ -12,15 +13,17 @@ import {
 function App() {
   return (
     <UserContextProvider>
-      <BrowserRouter>
-        <div>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-        </Routes>
-        </div>
-      </BrowserRouter>
+      <MenuContextProvider>
+        <BrowserRouter>
+          <div>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+          </Routes>
+          </div>
+        </BrowserRouter>
+      </MenuContextProvider>
     </UserContextProvider>
   );
 }

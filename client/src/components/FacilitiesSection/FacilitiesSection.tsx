@@ -17,7 +17,11 @@ const FacilitiesSection = () => {
         <h2>Select a facility</h2>
         <div className={styles.cardsSection}>
             {
-                facilities.map(facility => <FacilityCard name={facility} />)
+                facilities.map((facility, idx) => 
+                <FacilityCard 
+                  key={facility+idx}
+                  name={facility} 
+                />)
             }
             
         </div>

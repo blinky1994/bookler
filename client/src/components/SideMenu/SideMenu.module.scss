@@ -1,3 +1,19 @@
+.menuOpen {
+    position: fixed;
+    left: 0;
+    z-index: 2;
+    transition: all 0.25s ease-out;
+    opacity: 1;
+}
+
+.menuClose {
+    position: fixed;
+    left: -100%;
+    z-index: 2;
+    transition: all 0.25s ease-out;
+    opacity: 0;
+}
+
 .main {
     position: fixed;
     background-color: white;
@@ -6,6 +22,8 @@
     height: 100%;
     display: flex;
     justify-content: center;
+    z-index: 2;
+    transition: all 0.25s ease-out;
 
     .contentWithoutUser {
         display: flex;
@@ -55,10 +73,18 @@
     }
 }
 
-.skim {
+.skimOpen {
     position: fixed;
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.7);
+    transition: all 0.25s ease-out;
+    opacity: 1;
+    display: block;
 }
+
+.skimClose {
+    display: none;
+}
+
 

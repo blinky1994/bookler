@@ -2,21 +2,28 @@ import styles from './SideMenu.module.scss'
 import Button, { buttonStyle } from '../Button/Button';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/user.context';
-import { useContext, Dispatch, SetStateAction } from 'react';
-import { IUserAccount } from '../../context/user.context';
+import { useContext } from 'react';
+import { MenuContext } from '../../context/menu.context';
 
 const SideMenu = () => {
     const value = useContext(UserContext);
     const user = value!.user;
     const setUser = value!.setUser;
 
+    const { menu, setMenu } = useContext(MenuContext); 
+    console.log(menu);
     const handleLogOut = () => {
         setUser(null);
+    }
+
+    const handleMenu = () => {
+        setMenu(!menu);
     }
     
     return (
     <>
-        <div className={styles.skim}></div>
+        <div onClick={handleMenu} className={menu ? styles.skimOpen : styles.skimClose}></div>
+        <div className={menu ? styles.menuOpen : styles.menuClose}>
         <div className={styles.main}>
         {
             user ?
@@ -45,8 +52,8 @@ const SideMenu = () => {
                 </Link>
             </div>
         }
-            
         </div>  
+        </div>
     </>
     )
 }
