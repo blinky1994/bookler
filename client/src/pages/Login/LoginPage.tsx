@@ -7,6 +7,7 @@ import { validateLogin } from '../../utils/validateForm'
 import axios from 'axios'
 import { UserContext } from '../../context/user.context'
 import { useNavigate } from 'react-router-dom'
+import { MenuContext } from '../../context/menu.context'
 
 export interface ILoginForm {
     email: string;
@@ -20,6 +21,8 @@ const LoginPage = () => {
     const setUser = value!.setUser;
 
     const navigate = useNavigate();
+
+    const { setMenu } = useContext(MenuContext);
  
     const [formDetails, setFormDetails] = useState<ILoginForm>({
         email: '',
@@ -65,6 +68,7 @@ const LoginPage = () => {
                     email
                 });
                 navigate('/');
+                // setMenu(false);
                 
             }).catch(err => {
                 console.log('Error logging in: ', err.response.data.error);

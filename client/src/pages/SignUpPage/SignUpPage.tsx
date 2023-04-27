@@ -7,6 +7,7 @@ import { validateSignUp } from '../../utils/validateForm'
 import axios from 'axios';
 import { UserContext } from '../../context/user.context'
 import { useNavigate } from 'react-router-dom'
+import { MenuContext } from '../../context/menu.context'
 
 export interface ISignUpForm {
     email: string;
@@ -22,6 +23,8 @@ const SignUpPage = () => {
     const setUser = value!.setUser;
 
     const navigate = useNavigate();
+
+    const { setMenu } = useContext(MenuContext);
 
     const [formDetails, setFormDetails] = useState<ISignUpForm>({
         email: '',
@@ -72,6 +75,7 @@ const SignUpPage = () => {
                     email
                 });
                 navigate('/');
+                // setMenu(false);
             }).catch(err => {
                 let errorMsg = err.response.data.error;
                 if (errorMsg.includes('Duplicate')) {

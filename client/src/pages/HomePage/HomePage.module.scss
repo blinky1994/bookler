@@ -1,0 +1,23 @@
+.main {
+    width: 100%;
+    .message {
+        width: 100%;
+        text-align: center;
+        position: fixed;
+        bottom: 5%;
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        span {
+            font-size: 1.4rem;
+            text-align: center;
+            left: 37%;
+            bottom: 5%;
+        }
+    
+        .logInLink {
+            font-weight: bold;
+        }
+    }
+}
