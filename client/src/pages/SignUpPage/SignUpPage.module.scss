@@ -38,5 +38,14 @@
             flex-direction: column;
             gap: 1rem;
         }
+
+        .errorMessage {
+            position: absolute;
+            top: 57%;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            font-weight: bold;
+            color: red;
+        }
     }
 }

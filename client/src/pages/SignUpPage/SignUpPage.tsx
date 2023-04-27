@@ -1,10 +1,12 @@
 import styles from './SignUpPage.module.scss'
 import Button, { buttonStyle } from '../../components/Button/Button'
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import TextInput from '../../components/TextInput/TextInput'
 import { validateSignUp } from '../../utils/validateForm'
 import axios from 'axios';
+import { UserContext } from '../../context/user.context'
+import { useNavigate } from 'react-router-dom'
 
 export interface ISignUpForm {
     email: string;
@@ -16,6 +18,11 @@ export interface ISignUpForm {
 }
 
 const SignUpPage = () => {
+    const value = useContext(UserContext);
+    const setUser = value!.setUser;
+
+    const navigate = useNavigate();
+
     const [formDetails, setFormDetails] = useState<ISignUpForm>({
         email: '',
         emailError: '',
@@ -24,6 +31,8 @@ const SignUpPage = () => {
         confirmPassword: '',
         confirmPasswordError: ''
     });
+
+    const [errorMessage, setErrorMessage] = useState('');
 
     // For Debugging
     // useEffect(() => {
@@ -40,6 +49,7 @@ const SignUpPage = () => {
     }
 
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setErrorMessage('');
         if (validateSignUp(formDetails, setFormDetails)) {
             const { email, password } = formDetails;
             
@@ -57,9 +67,18 @@ const SignUpPage = () => {
                 })
                 console.log(`Successfully created user: ${JSON.stringify(response.data.user)}`);
                 const {id, email} = response.data.user;
-                
+                setUser({
+                    id,
+                    email
+                });
+                navigate('/');
             }).catch(err => {
-                console.log('Error signing up: ', err.response.data.error);
+                let errorMsg = err.response.data.error;
+                if (errorMsg.includes('Duplicate')) {
+                    errorMsg = 'Account already exists'
+                }
+                console.log('Error signing up: ', errorMsg);
+                setErrorMessage(errorMsg);
             })
         };
     }
@@ -75,6 +94,9 @@ const SignUpPage = () => {
                     <TextInput name="password" value={formDetails.password} onChange={handleChange} type="text" placeholder='Password' error={formDetails.passwordError}/>
                     <TextInput name="confirmPassword" value={formDetails.confirmPassword} onChange={handleChange} type="text" placeholder='Confirm Password' error={formDetails.confirmPasswordError}/>
                 </div>
+                {
+                 errorMessage && <span className={styles.errorMessage} >{errorMessage}</span>
+                }
                 <div className={styles.buttons}>
                     <Button onClick={handleSubmit} buttonStyle={buttonStyle.fill}>Sign Up</Button>
                     <Link to={'/'} >

@@ -1,10 +1,12 @@
 import styles from './LoginPage.module.scss'
 import Button, { buttonStyle } from '../../components/Button/Button'
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import TextInput from '../../components/TextInput/TextInput'
 import { validateLogin } from '../../utils/validateForm'
 import axios from 'axios'
+import { UserContext } from '../../context/user.context'
+import { useNavigate } from 'react-router-dom'
 
 export interface ILoginForm {
     email: string;
@@ -14,6 +16,11 @@ export interface ILoginForm {
 }
 
 const LoginPage = () => {
+    const value = useContext(UserContext);
+    const setUser = value!.setUser;
+
+    const navigate = useNavigate();
+ 
     const [formDetails, setFormDetails] = useState<ILoginForm>({
         email: '',
         emailError: '',
@@ -53,6 +60,11 @@ const LoginPage = () => {
                 })
                 console.log(`Successfully logged in: ${JSON.stringify(response.data.user)}`);
                 const {id, email} = response.data.user;
+                setUser({
+                    id,
+                    email
+                });
+                navigate('/');
                 
             }).catch(err => {
                 console.log('Error logging in: ', err.response.data.error);
