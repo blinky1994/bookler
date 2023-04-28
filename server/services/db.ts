@@ -9,4 +9,6 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD
 });
 
+console.log('Successfully created DB');
+
 export default pool.promise();
