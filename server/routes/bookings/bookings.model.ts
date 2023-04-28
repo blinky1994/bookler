@@ -5,7 +5,8 @@ export async function addBookingInDB(user_id: number, timeslots: number[]) {
 
     return {
         booking_id: booking.booking_id,
-        user_id: booking.user_id
+        user_id: booking.user_id,
+        booking_timeslot_id: booking.booking_timeslot_id
     }
 }
 
