@@ -2,10 +2,10 @@ import { Request, Response } from "express";
 import { addBookingInDB } from "./bookings.model";
 
 export async function addBooking(req : Request, res: Response) {
-    const { user_id } = req.body;
+    const { user_id, timeslots } = req.body;
     try {
-        const booking = await addBookingInDB(user_id);
-        console.log('Successfully logged in');
+        const booking = await addBookingInDB(user_id, timeslots);
+        console.log('Successfully added booking');
         res.status(200).json({
             booking
         })
