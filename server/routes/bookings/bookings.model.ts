@@ -5,8 +5,7 @@ export async function addBookingInDB(user_id: number, timeslots: number[]) {
 
     return {
         booking_id: booking.booking_id,
-        user_id: booking.user_id,
-        booking_timeslot_id: booking.booking_timeslot_id
+        user_id: booking.user_id
     }
 }
 
@@ -31,39 +30,91 @@ async function createBookingInDB(user_id: number, timeslots: number[]) {
     const booking_id = response2[0][0].id;
     const userID = response2[0][0].user_id;
 
-    async function processTimeslots(timeslots: number[]) {
-        let insertID = 0;
-        for (const timeslot_id of timeslots) {
-            const response = await db.query(`
-            INSERT INTO bookings_timeslots (
-                booking_id, timeslot_id
-            )
-            VALUES (
-                '${booking_id}', '${timeslot_id}'
-            );
-            `);
 
-            if (!insertID) {
-                insertID = response[0].insertId;
-            }
-        }
-
-        return insertID;
-    }
-
-    const booking_timeslot_id = await processTimeslots(timeslots);
-
-    sql = `
-        UPDATE bookings
-        SET booking_timeslot_id = '${booking_timeslot_id}'
-        WHERE id = '${booking_id}'
-    `;
-
-    await db.query(sql);
+    await processTimeslots(booking_id, timeslots);
 
     return {
         booking_id,
         user_id: userID,
-        booking_timeslot_id
+        timeslots
     }
+}
+
+async function processTimeslots(booking_id: number, timeslots: number[]) {
+    for (const timeslot_id of timeslots) {
+        await db.query(`
+        INSERT INTO bookings_timeslots (
+            booking_id, timeslot_id
+        )
+        VALUES (
+            '${booking_id}', '${timeslot_id}'
+        );
+        `);
+    }
+}
+
+export async function updateBookingInDB(booking_id : number, timeslots: number[]) {
+    let sql = `
+        DELETE FROM bookings_timeslots
+        WHERE booking_id = '${booking_id}';
+    `;
+
+    await db.query(sql); // Delete previous timeslots before updating
+
+    await processTimeslots(booking_id, timeslots);
+
+    return {
+        booking_id,
+        timeslots
+    }
+}
+
+export async function getBookingFromDB(user_id: number) {
+    let sql = `
+        SELECT id FROM bookings WHERE user_id = '${user_id}';
+    `;
+
+    const booking_ids = (await db.query(sql))[0];
+
+    if (booking_ids.length === 0) throw new Error('User has no bookings');
+
+    let bookings = [];
+
+    for (const booking of booking_ids) {
+        const booking_id = booking.id;
+        const timeslotsObjects = (await db.query(`
+            SELECT timeslot_id FROM bookings_timeslots 
+            WHERE booking_id = '${booking_id}'
+        `))[0];
+
+        let timeslots_timings = [];
+        let facility_id = 0;
+        for (const timeslotObj of timeslotsObjects) {
+            const { timeslot_id } = timeslotObj;
+            const timing = await db.query(`
+                SELECT start_time, end_time, facility_id FROM timeslots
+                WHERE id = '${timeslot_id}';
+            `);
+
+            facility_id = timing[0][0].facility_id
+            timeslots_timings.push({
+                start_time: timing[0][0].start_time,
+                end_time: timing[0][0].end_time
+            });
+        }
+
+        const facility = await db.query(`
+                SELECT details FROM facilities
+                WHERE id = '${facility_id}';
+            `);
+        const facilityParsed = JSON.parse(facility[0][0].details);
+
+        bookings.push({
+            booking_id,
+            facility: facilityParsed,
+            timeslots: timeslots_timings
+        })
+    }
+
+    return bookings;
 }

@@ -85,7 +85,7 @@ const LoginPage = () => {
             <div className={styles.formFields}>
                 <h2>Log In</h2>
                 <TextInput name='email' value={formDetails.email} onChange={handleChange} type="text" placeholder='Email' error={formDetails.emailError}/>
-                <TextInput name='password' value={formDetails.password} onChange={handleChange} type="text" placeholder='Password' error={formDetails.passwordError}/>
+                <TextInput name='password' value={formDetails.password} onChange={handleChange} type="password" placeholder='Password' error={formDetails.passwordError}/>
             </div>
             {
                 errorMessage && <span className={styles.errorMessage} >{errorMessage}</span>

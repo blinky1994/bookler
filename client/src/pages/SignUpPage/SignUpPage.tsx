@@ -77,12 +77,8 @@ const SignUpPage = () => {
                 navigate('/');
                 // setMenu(false);
             }).catch(err => {
-                let errorMsg = err.response.data.error;
-                if (errorMsg.includes('Duplicate')) {
-                    errorMsg = 'Account already exists'
-                }
-                console.log('Error signing up: ', errorMsg);
-                setErrorMessage(errorMsg);
+                console.log('Error logging in: ', err.response.data.error);
+                setErrorMessage(err.response.data.error.slice(6));
             })
         };
     }
@@ -95,8 +91,8 @@ const SignUpPage = () => {
                 <div className={styles.formFields}>
                     <h2>Sign Up</h2>
                     <TextInput name="email" value={formDetails.email} onChange={handleChange} type="text" placeholder='Email' error={formDetails.emailError}/>
-                    <TextInput name="password" value={formDetails.password} onChange={handleChange} type="text" placeholder='Password' error={formDetails.passwordError}/>
-                    <TextInput name="confirmPassword" value={formDetails.confirmPassword} onChange={handleChange} type="text" placeholder='Confirm Password' error={formDetails.confirmPasswordError}/>
+                    <TextInput name="password" value={formDetails.password} onChange={handleChange} type="password" placeholder='Password' error={formDetails.passwordError}/>
+                    <TextInput name="confirmPassword" value={formDetails.confirmPassword} onChange={handleChange} type="password" placeholder='Confirm Password' error={formDetails.confirmPasswordError}/>
                 </div>
                 {
                  errorMessage && <span className={styles.errorMessage} >{errorMessage}</span>
