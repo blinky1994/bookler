@@ -5,7 +5,8 @@ export async function addBookingInDB(user_id: number, timeslots: number[]) {
 
     return {
         booking_id: booking.booking_id,
-        user_id: booking.user_id
+        user_id: booking.user_id,
+        status: "Added"
     }
 }
 
@@ -54,6 +55,12 @@ async function processTimeslots(booking_id: number, timeslots: number[]) {
 }
 
 export async function updateBookingInDB(booking_id : number, timeslots: number[]) {
+    const bookings = await db.query(`
+        SELECT id FROM bookings WHERE id = '${booking_id}'
+    `)
+
+    if (!bookings[0][0]) throw new Error('Booking does not exist');
+
     let sql = `
         DELETE FROM bookings_timeslots
         WHERE booking_id = '${booking_id}';
@@ -61,12 +68,29 @@ export async function updateBookingInDB(booking_id : number, timeslots: number[]
 
     await db.query(sql); // Delete previous timeslots before updating
 
+    if (timeslots.length === 0) {
+        await db.query(`
+            DELETE FROM bookings
+            WHERE id = '${booking_id}';
+        `)
+
+        return {
+            booking_id,
+            status: "Deleted"
+        }
+    }
+
     await processTimeslots(booking_id, timeslots);
 
     return {
         booking_id,
-        timeslots
+        timeslots,
+        status: "Updated"
     }
+}
+
+export async function deleteBookingInDB(booking_id: number) {
+    return await updateBookingInDB(booking_id, []);
 }
 
 export async function getBookingFromDB(user_id: number) {

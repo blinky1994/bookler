@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addBookingInDB, updateBookingInDB, getBookingFromDB } from "./bookings.model";
+import { addBookingInDB, updateBookingInDB, getBookingFromDB, deleteBookingInDB } from "./bookings.model";
 
 export async function addBooking(req : Request, res: Response) {
     const { user_id, timeslots } = req.body;
@@ -51,8 +51,16 @@ export async function getBooking(req : Request, res: Response) {
 
 export async function cancelBooking(req : Request, res: Response) {
     const { booking_id } = req.params;
-    res.send({
-        message: 'cancelBooking',
-        booking_id: booking_id
-    })
+    try {
+        const booking = await deleteBookingInDB(parseInt(booking_id, 10));
+        console.log('Successfully retrieved booking');
+        res.status(200).json({
+            booking
+        })
+    } catch (err : any) {
+        console.log('Error retrieving booking: ', err);
+        res.status(400).json({
+            error: err.toString()
+        })
+    }
 }
