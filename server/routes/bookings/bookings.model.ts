@@ -68,6 +68,7 @@ export async function updateBookingInDB(booking_id : number, timeslots: number[]
 
     await db.query(sql); // Delete previous timeslots before updating
 
+    // Delete from bookings table if there are no timeslots
     if (timeslots.length === 0) {
         await db.query(`
             DELETE FROM bookings
