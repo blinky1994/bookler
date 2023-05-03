@@ -12,7 +12,6 @@ const SideMenu = () => {
     const setUser = value!.setUser;
 
     const { menu, setMenu } = useContext(MenuContext); 
-    console.log(menu);
     const handleLogOut = () => {
         setUser(null);
     }

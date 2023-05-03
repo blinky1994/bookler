@@ -1,5 +1,4 @@
 import styles from './HomePage.module.scss';
-import SideMenu from '../../components/SideMenu/SideMenu';
 import NavBar from '../../components/NavBar/NavBar';
 import CategoriesSection from '../../components/CategoriesSection/CategoriesSection';
 import { useContext } from 'react';
@@ -12,7 +11,6 @@ const HomePage = () => {
 
   return (
     <div className={styles.main}>
-      <SideMenu />
       <NavBar />
       <CategoriesSection />
       <div className={styles.message}>

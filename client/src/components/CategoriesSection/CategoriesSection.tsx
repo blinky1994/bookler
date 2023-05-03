@@ -10,12 +10,12 @@ const CategoriesSection = () => {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const response = await axios.get('http://localhost:3001/facilities/categories');
+        const response = await axios.get('http://localhost:3001/facilities/categories/all');
         const { categories } = response.data;
         setCategories(categories)
         console.log('fetched: ', categories);
       } catch (err: any) {
-        console.log('Error logging in: ', err.response.data.error);
+        console.log('Error fetching categories: ', err.response.data.error);
       }
     }
     fetchCategories();
@@ -23,7 +23,7 @@ const CategoriesSection = () => {
 
   return (
     <div className={styles.main}>
-        <h2>Select a facility</h2>
+        <h2>All Facilities</h2>
         <div className={styles.cardsSection}>
           {
                 categories.length && 

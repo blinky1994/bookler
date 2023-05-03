@@ -1,0 +1,28 @@
+.main {
+    padding: 1.6rem;
+
+    h2 {
+        font-size: 1.6rem;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.65);
+    }
+
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .allFacilitiesText {
+            font-weight: 500;
+        }
+    }
+
+    .cardsSection {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.6rem;
+        margin: 0 auto;
+    }
+}
+
+
