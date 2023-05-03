@@ -1,7 +1,7 @@
 import styles from './HomePage.module.scss';
 import SideMenu from '../../components/SideMenu/SideMenu';
 import NavBar from '../../components/NavBar/NavBar';
-import FacilitiesSection from '../../components/FacilitiesSection/FacilitiesSection';
+import CategoriesSection from '../../components/CategoriesSection/CategoriesSection';
 import { useContext } from 'react';
 import { UserContext } from '../../context/user.context';
 import { Link } from 'react-router-dom';
@@ -14,7 +14,7 @@ const HomePage = () => {
     <div className={styles.main}>
       <SideMenu />
       <NavBar />
-      <FacilitiesSection />
+      <CategoriesSection />
       <div className={styles.message}>
         {
           user ? 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getFacilitiesFromDB, getCategoriesMapWithFacilities } from "./facilities.model";
+import { getFacilitiesFromDB, getCategoriesFromDB } from "./facilities.model";
 
 export async function getFacilities(req : Request, res: Response) {
     try {
@@ -18,7 +18,7 @@ export async function getFacilities(req : Request, res: Response) {
 
 export async function getCategories(req : Request, res: Response) {
     try {
-        const categories = await getCategoriesMapWithFacilities();
+        const categories = await getCategoriesFromDB();
         console.log('Successfully retrieved categories');
         res.status(200).json({
             categories

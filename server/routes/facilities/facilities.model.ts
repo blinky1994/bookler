@@ -40,6 +40,7 @@ export async function getFacilitiesFromDB() {
         facilitiesArray.push({
             name,
             category: category.name,
+            category_id,
             description,
             timeslots: facilities.get(facility)
         })
@@ -48,43 +49,22 @@ export async function getFacilitiesFromDB() {
     return facilitiesArray;
 }
 
-async function getCategoriesFromDB() {
+export async function getCategoriesFromDB() {
     const categories = await db.query(`
-        SELECT name FROM categories;
+        SELECT id, name FROM categories;
     `)
 
     interface ICategory {
+        id: number;
         name: string;
     }
 
-    const categoriesMapped = categories[0].map((categoryObj : ICategory) => categoryObj.name);
+    const categoriesMapped = categories[0].map((categoryObj : ICategory) => {
+        return {
+            id: categoryObj.id,
+            name: categoryObj.name
+        }
+    });
 
     return categoriesMapped;
-}
-
-export async function getCategoriesMapWithFacilities() {
-    const facilities = await getFacilitiesFromDB();
-    if (!facilities.length) throw new Error('No facilities found');
-
-    const categories = await getCategoriesFromDB();
-    if (!categories.length) throw new Error('No categories found');
-
-    const categoryMap = new Map();
-
-    for (const facility of facilities) {
-        const { category } = facility;
-
-        categoryMap.set(category, [...(categoryMap.get(category) ?? []), facility]);
-    }
-
-    const categoryArray = [];
-
-    for (const category of categoryMap.keys()) {
-        categoryArray.push({
-            category,
-            facilities: categoryMap.get(category)
-        })
-    }
-
-    return categoryArray;
 }

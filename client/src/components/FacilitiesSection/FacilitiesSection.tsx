@@ -1,32 +1,26 @@
-import styles from './FacilitiesSection.module.scss';
-import FacilityCard from './FacilityCard/FacilityCard';
+// import { useContext } from 'react';
+// import styles from './CategoriesSection.module.scss';
+// import CategoryCard from './CategoryCard/CategoryCard';
 
-const facilities = [
-    `Basketball Courts`,
-    `Tennis Courts`,
-    `Running Tracks`,
-    `Gyms`,
-    `Swimming Pools`,
-    `Soccer Fields`,
-
-]
-
-const FacilitiesSection = () => {
-  return (
-    <div className={styles.main}>
-        <h2>Select a facility</h2>
-        <div className={styles.cardsSection}>
-            {
-                facilities.map((facility, idx) => 
-                <FacilityCard 
-                  key={facility+idx}
-                  name={facility} 
-                />)
-            }
+// const CategoriesSection = () => {
+//   const { categories } = useContext(CategoriesContext);
+//   console.log(categories);
+//   return (
+//     <div className={styles.main}>
+//         <h2>Select a facility</h2>
+//         <div className={styles.cardsSection}>
+//             {
+//                 categories.map((categoryObj, idx) => 
+//                 <CategoryCard 
+//                   key={categoryObj.name + idx}
+//                   id={categoryObj.id}
+//                   name={categoryObj.name}
+//                 />)
+//             }
             
-        </div>
-    </div>
-  )
-}
+//         </div>
+//     </div>
+//   )
+// }
 
-export default FacilitiesSection
+// export default CategoriesSection

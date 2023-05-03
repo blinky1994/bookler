@@ -1,9 +1,9 @@
 import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/Login/LoginPage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
+import FacilitiesPage from "./pages/Facilities/FacilitiesPage";
 import { UserContextProvider } from "./context/user.context";
 import { MenuContextProvider } from "./context/menu.context";
-import { CategoriesContextProvider } from "./context/categories.context";
 
 import {
   BrowserRouter,
@@ -15,17 +15,16 @@ function App() {
   return (
     <UserContextProvider>
       <MenuContextProvider>
-        <CategoriesContextProvider>
         <BrowserRouter>
           <div>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/facilities/:category_id" element={<FacilitiesPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
           </Routes>
           </div>
         </BrowserRouter>
-        </CategoriesContextProvider>
       </MenuContextProvider>
     </UserContextProvider>
   );
