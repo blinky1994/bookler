@@ -11,7 +11,6 @@ export interface IFacility {
     category: string;
     category_id: number;
     description: string;
-    timeslots: ITimeslot[]
 }
 
 export interface ICategory {

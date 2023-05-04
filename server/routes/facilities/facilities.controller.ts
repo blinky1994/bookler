@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-import { getFacilitiesFromDB, getFacilityFromDB, getCategoriesFromDB } from "./facilities.model";
+import { 
+    getFacilitiesFromDB, 
+    getFacilityFromDB, 
+    getCategoriesFromDB, 
+    getFacilityTimeSlotsFromDB } 
+from "./facilities.model";
 
 export async function getFacilities(req: Request, res: Response) {
     try {
@@ -27,6 +32,23 @@ export async function getFacility(req: Request, res: Response) {
         })
     } catch (err : any) {
         console.log('Error retrieving facility: ', err);
+        res.status(400).json({
+            error: err.toString()
+        })
+    }
+}
+
+
+export async function getFacilityTimeSlots(req: Request, res: Response) {
+    try {
+        const { facility_id } = req.params;
+        const timeslots = await getFacilityTimeSlotsFromDB(parseInt(facility_id, 10));
+        console.log('Successfully retrieved timeslots');
+        res.status(200).json({
+            timeslots
+        })
+    } catch (err : any) {
+        console.log('Error retrieving timeslots: ', err);
         res.status(400).json({
             error: err.toString()
         })
