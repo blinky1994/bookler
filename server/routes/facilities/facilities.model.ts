@@ -35,10 +35,10 @@ export async function getFacilitiesFromDB(category_id : number | undefined) {
 
     for (const facility of facilities.keys()) {
         const response = (await db.query(`
-            SELECT id, details, category_id FROM facilities WHERE id = '${facility}';
+            SELECT id, details, category_id, image_url FROM facilities WHERE id = '${facility}';
         `))[0][0];
     
-        const { id, category_id, details } = response;
+        const { id, category_id, details, image_url } = response;
         const facilityObj = JSON.parse(details);
 
         const { name, description } = facilityObj;
@@ -50,9 +50,11 @@ export async function getFacilitiesFromDB(category_id : number | undefined) {
         facilitiesArray.push({
             name,
             category: category.name,
-            facility_id: id,
+            category_id,
+            id,
             description,
-            timeslots: facilities.get(facility)
+            timeslots: facilities.get(facility),
+            image_url
         })
     }
 
@@ -83,7 +85,7 @@ export async function getFacilityFromDB(facility_id: number) {
         })
     }
 
-    const { id, category_id, details } = timeAndFacilitiesData[0][0];
+    const { id, category_id, details, image_url } = timeAndFacilitiesData[0][0];
     const facilityObj = JSON.parse(details);
 
     const { name, description } = facilityObj;
@@ -96,9 +98,11 @@ export async function getFacilityFromDB(facility_id: number) {
     return {
         name,
         category: category.name,
-        facility_id: id,
+        category_id,
+        id,
         description,
-        timeslots: timeslotsArray
+        timeslots: timeslotsArray,
+        image_url
     };
 }
 

@@ -7,10 +7,12 @@ type FacilityCardProps = IFacility;
 const FacilityCard: React.FC<FacilityCardProps> = (facility) => {
   const navigate = useNavigate();
 
+  
   const { id, name } = facility;
+  console.log(id);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    navigate(`/facility/${id}`);
+    navigate(`/facilities/facility/${id}`);
   }
 
   return (

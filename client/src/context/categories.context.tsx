@@ -6,6 +6,7 @@ export interface ITimeslot {
 
 export interface IFacility {
     id: number;
+    image_url: string;
     name: string;
     category: string;
     category_id: number;

@@ -1,7 +1,8 @@
 import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/Login/LoginPage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
-import FacilitiesPage from "./pages/Facilities/FacilitiesPage";
+import FacilitiesPage from "./pages/FacilitiesPage/FacilitiesPage";
+import FacilityPage from "./pages/FacilityPage/FacilityPage";
 import { UserContextProvider } from "./context/user.context";
 import { MenuContextProvider } from "./context/menu.context";
 
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/facilities/:category_id" element={<FacilitiesPage />} />
+            <Route path="/facilities/facility/:facility_id" element={<FacilityPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
           </Routes>

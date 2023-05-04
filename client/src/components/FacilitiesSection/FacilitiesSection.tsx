@@ -24,6 +24,7 @@ const FacilitiesSection = () => {
       }
     }
     fetchfacilities();
+    // eslint-disable-next-line
   }, [])
 
   const handleClickToHome = (e: React.MouseEvent<HTMLDivElement>) => {

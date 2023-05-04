@@ -1,0 +1,34 @@
+.main {
+    .titleSection {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4rem;
+        margin: 1.2rem 0;
+
+        .leftArrowIcon {
+           position: absolute;
+           left: 10%;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.0rem;
+        }
+    }
+
+    .facilityImage {
+        width: 100%;
+    }
+
+    .facilityDescription {
+        font-size: 1.6rem;
+        margin: 1.2rem;
+        color: rgba(0, 0, 0, 0.675);
+    }
+
+    .bookButton {
+        display: flex;
+        justify-content: center;
+        margin: 3.2rem 0;
+    }
+}

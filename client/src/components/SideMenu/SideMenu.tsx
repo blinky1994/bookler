@@ -5,11 +5,13 @@ import { UserContext } from '../../context/user.context';
 import { useContext } from 'react';
 import { MenuContext } from '../../context/menu.context';
 import { ReactComponent as IconCancel } from '../Icons/Icon_Cancel.svg';
+import { useNavigate } from 'react-router-dom';
 
 const SideMenu = () => {
     const value = useContext(UserContext);
     const user = value!.user;
     const setUser = value!.setUser;
+    const navigate = useNavigate();
 
     const { menu, setMenu } = useContext(MenuContext); 
     const handleLogOut = () => {
@@ -19,6 +21,12 @@ const SideMenu = () => {
     const handleMenu = () => {
         setMenu(!menu);
     }
+
+    const handleViewAllFacilitiesButton = () => {
+        setMenu(!menu);
+        navigate('/');
+    }
+
     
     return (
     <>
@@ -33,8 +41,8 @@ const SideMenu = () => {
             <div className={styles.contentWithUser}>
                 <h1>Bookler</h1>
                 <div className={styles.buttons}>
-                    <Button buttonStyle={buttonStyle.stroke}>Manage Bookings</Button>
-                    <Button buttonStyle={buttonStyle.stroke}>Book a Facility</Button>
+                    <Button onClick={handleViewAllFacilitiesButton} buttonStyle={buttonStyle.stroke}>View All Facilities</Button>
+                    <Button buttonStyle={buttonStyle.stroke}>My Bookings</Button>
                 </div>
                 <div className={styles.greeting}>
                     <span>Logged in as</span>
