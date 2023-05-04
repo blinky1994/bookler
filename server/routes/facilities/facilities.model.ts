@@ -79,8 +79,17 @@ export async function getFacilityTimeSlotsFromDB(facility_id: number) {
 
     for (const data of timeslotsData[0]) {
         const { id, start_time, end_time } = data;
+        const bookingData = await db.query(`
+            SELECT id FROM bookings_timeslots 
+            WHERE timeslot_id = '${id}'
+        `);
+
+        const isBooked = bookingData[0].length > 0;
         timeslots.push({
-            id, start_time, end_time
+            id,
+            start_time, 
+            end_time,
+            isBooked
         })
     }
     return timeslots;

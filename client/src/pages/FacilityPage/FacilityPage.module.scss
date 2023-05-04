@@ -26,9 +26,20 @@
         color: rgba(0, 0, 0, 0.675);
     }
 
-    .bookButton {
-        display: flex;
-        justify-content: center;
-        margin: 3.2rem 0;
+    .bookingSection{
+        margin: 1.2rem;
+        h3 {
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+        .bookButton {
+            display: flex;
+            justify-content: center;
+            margin: 3.2rem 0;
+        }
+    
+        .datePicker {
+        }
     }
+
 }

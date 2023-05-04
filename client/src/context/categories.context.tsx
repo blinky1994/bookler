@@ -1,6 +1,7 @@
 export interface ITimeslot {
-    start_time: Date;
-    end_time: Date;
+    id: number;
+    date: string;
+    time: string;
     isBooked: boolean;
 }
 
