@@ -1,15 +1,14 @@
 import styles from './FacilityPage.module.scss'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { IFacility } from '../../context/categories.context'
+import { IFacility, ITimeslot, IBooking } from '../../interfaces/interfaces'
 import axios from 'axios'
 import NavBar from '../../components/NavBar/NavBar'
 import { ReactComponent as IconLeftArrow } from '../../components/Icons/Icon_LeftArrow.svg'
 import Button, { buttonStyle } from '../../components/Button/Button'
 import { useNavigate } from 'react-router-dom'
 import DatePicker from '../../components/DatePicker/DatePicker'
-import { ITimeslot } from '../../context/categories.context'
-import { formatTime, getDatesInISOString, filterTimeslotsByDate } from '../../utils/formatDateTime'
+import { formatTimeData, getDatesInISOString, filterTimeslotsByDate } from '../../utils/formatDateTime'
 import Timeslots from '../../components/Timeslots/Timeslots'
 
 const FacilityPage = () => {
@@ -19,6 +18,8 @@ const FacilityPage = () => {
 
     const [selectedDate, setSelectedDate] = useState<Date>();
     const [dates, setDates] = useState<string[]>([]);
+
+    const [bookings, setBookings] = useState<IBooking[]>([]);
 
     const navigate = useNavigate();
   
@@ -30,8 +31,7 @@ const FacilityPage = () => {
           setDates(getDatesInISOString(timeslots));
           if (selectedDate) {
             const filteredTimeSlots = filterTimeslotsByDate(selectedDate, timeslots);
-            setTimeslots(formatTime(filteredTimeSlots));
-            console.log(filteredTimeSlots);
+            setTimeslots(formatTimeData(filteredTimeSlots, facility!.name));
           } 
         } catch (err: any) {
           console.log('Error fetching timeslots: ', err.response.data.error);
@@ -62,10 +62,51 @@ const FacilityPage = () => {
 
     useEffect(() => {
       fetchTimeslots();
+      // eslint-disable-next-line
     }, [selectedDate])
     
     const handleDateChange = (date: Date) => {
       setSelectedDate(date);
+    }
+
+    useEffect(() => {
+      console.log(bookings);
+    }, [bookings])
+    
+
+    const handleBooking = (timeslot: ITimeslot, isRemove : boolean) => {
+    //   export interface ITimeslot {
+    //     id: number;
+    //     date: string;
+    //     time: string;
+    //     facilityName: string;
+    //     isBooked: boolean;
+    // }
+    
+      // export interface iBooking {
+      //   id: number[];
+      //   facility: string;
+      //   date: Date;
+      //   time: string[]
+      // }
+
+      if (isRemove) {
+        console.log('remove');
+        setBookings(bookings!.filter(booking => booking.id !== timeslot.id))
+      } 
+      else {
+        console.log('add');
+        const { id, facilityName, date, time } = timeslot;
+        const newBookings = [...bookings, {
+          id,
+          facilityName,
+          date,
+          time
+        }];
+
+        setBookings(newBookings)
+      }
+
     }
 
     const handleBookButton = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -113,7 +154,7 @@ const FacilityPage = () => {
                   <h3>Time slots</h3>
                     {
                       timeslots &&
-                      <Timeslots timeslots={timeslots}/>
+                      <Timeslots handleBooking={handleBooking} timeslots={timeslots}/>
                     }
                 </div>
 

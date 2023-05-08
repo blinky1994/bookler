@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './FacilitiesSection.module.scss';
 import FacilityCard from './FacilityCard/FacilityCard';
 import axios from 'axios';
-import { IFacility } from '../../context/categories.context';
+import { IFacility } from '../../interfaces/interfaces';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 

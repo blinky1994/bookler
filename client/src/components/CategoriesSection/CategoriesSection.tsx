@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './CategoriesSection.module.scss';
 import CategoryCard from './CategoryCard/CategoryCard';
 import axios from 'axios';
-import { ICategory } from '../../context/categories.context';
+import { ICategory } from '../../interfaces/interfaces';
 
 const CategoriesSection = () => {
   const [categories, setCategories] = useState([]);

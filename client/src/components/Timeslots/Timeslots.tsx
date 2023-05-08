@@ -1,24 +1,23 @@
 import Timeslot from "./Timeslot/Timeslot"
 import styles from './Timeslots.module.scss'
-
-import { ITimeslot } from "../../context/categories.context"
+import { ITimeslot } from "../../interfaces/interfaces"
 
 interface ITimeslotsProp {
-    timeslots: ITimeslot[]
+    timeslots: ITimeslot[];
+    handleBooking: (timeslot: ITimeslot, isRemove: boolean) => void;
 }
 
-const Timeslots = ({ timeslots } : ITimeslotsProp) => {
+const Timeslots = ({ timeslots, handleBooking } : ITimeslotsProp) => {
   return (
     <div className={styles.main}>
         {
             timeslots.map((timeslot: ITimeslot) => 
             <Timeslot
                 key={timeslot.id + timeslot.time}
-                id={timeslot.id}
-                time={timeslot.time}
-                isBooked={timeslot.isBooked}
+                timeslot={timeslot}
+                handleBooking={handleBooking}
             />
-        )
+            )
         }
     </div>
 

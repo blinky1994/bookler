@@ -1,7 +1,15 @@
+export interface IBooking {
+  id: number;
+  facilityName: string;
+  date: string;
+  time: string
+}
+
 export interface ITimeslot {
     id: number;
     date: string;
     time: string;
+    facilityName: string;
     isBooked: boolean;
 }
 

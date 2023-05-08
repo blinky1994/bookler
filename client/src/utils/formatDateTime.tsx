@@ -1,11 +1,12 @@
-import { ITimeslot } from "../context/categories.context";
+import { ITimeslot } from "../interfaces/interfaces";
 
-export function formatTime(timeslots: any): ITimeslot[] {
+export function formatTimeData(timeslots: any, facilityName: string): ITimeslot[] {
     return timeslots.map((timeslot: any) => {
         const { id, start_time, end_time, isBooked } = timeslot;
 
         return {
             id,
+            facilityName,
             date: getDateString(start_time),
             time: getStartEndTime(start_time, end_time),
             isBooked
