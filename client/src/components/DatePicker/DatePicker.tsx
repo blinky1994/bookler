@@ -1,21 +1,21 @@
 import ReactDatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
-import { useState } from 'react'
 
-export interface DatePickerProps {
-    disabledDates: Date[]
+interface IDatePickerProps {
+    selected: Date;
+    onChange: (date: Date) => void,
+    enabledDates: Date[]
 }
 
-const DatePicker = (dateSettings: DatePickerProps) => {
-    const [startDate, setStartDate] = useState<Date | null>(new Date(Date.now()));
-    const { disabledDates } = dateSettings;
 
+const DatePicker = ({selected, onChange, enabledDates, ...rest} : IDatePickerProps) => {
     return (
         <div>
              <ReactDatePicker 
-                selected={startDate} 
-                onChange={(date) => setStartDate(date)}
-                excludeDates={disabledDates}
+                selected={selected}
+                onChange={onChange}
+                includeDates={enabledDates}
+                {...rest}
              />
         </div>
        

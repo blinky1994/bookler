@@ -84,9 +84,12 @@ export async function getFacilityTimeSlotsFromDB(facility_id: number) {
             WHERE timeslot_id = '${id}'
         `);
 
+        const date = (new Date(start_time));
+
         const isBooked = bookingData[0].length > 0;
         timeslots.push({
             id,
+            date,
             start_time, 
             end_time,
             isBooked

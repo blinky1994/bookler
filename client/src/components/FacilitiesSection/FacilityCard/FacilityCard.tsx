@@ -9,8 +9,7 @@ const FacilityCard: React.FC<FacilityCardProps> = (facility) => {
 
   
   const { id, name } = facility;
-  console.log(id);
-
+  
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     navigate(`/facilities/facility/${id}`);
   }

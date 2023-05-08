@@ -9,45 +9,62 @@ import Button, { buttonStyle } from '../../components/Button/Button'
 import { useNavigate } from 'react-router-dom'
 import DatePicker from '../../components/DatePicker/DatePicker'
 import { ITimeslot } from '../../context/categories.context'
-import { formatTime, formatDate } from '../../utils/formatDateTime'
+import { formatTime, getDatesInISOString, filterTimeslotsByDate } from '../../utils/formatDateTime'
+
 const FacilityPage = () => {
     const [facility, setFacility] = useState<IFacility>();
     const { facility_id } = useParams();
     const [timeslots, setTimeslots] = useState<ITimeslot[]>([]);
-    const [dates, setDates] = useState<Date[]>([]);
+
+    const [selectedDate, setSelectedDate] = useState<Date>();
+    const [dates, setDates] = useState<string[]>([]);
 
     const navigate = useNavigate();
   
+
+    async function fetchTimeslots() {
+      try {
+          const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/timeslots`);
+          const { timeslots } = response.data;
+          setDates(getDatesInISOString(timeslots));
+          if (selectedDate) {
+            const filteredTimeSlots = filterTimeslotsByDate(selectedDate, timeslots);
+            setTimeslots(formatTime(filteredTimeSlots));
+          } 
+        } catch (err: any) {
+          console.log('Error fetching timeslots: ', err.response.data.error);
+        }
+    }
+
+    useEffect(() => {
+      if (dates[0] && !selectedDate) {
+        setSelectedDate(new Date(dates[0]));
+      }
+      
+    }, [dates, selectedDate])
+
     useEffect(() => {
       async function fetchFacility() {
         try {
           const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}`);
           const { facility } = response.data;
           setFacility(facility)
-        //   console.log('fetched: ', facility);
         } catch (err: any) {
           console.log('Error fetching facility: ', err.response.data.error);
         }
       }
       fetchFacility();
-
-      async function fetchTimeslots() {
-        
-        try {
-            const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/timeslots`);
-            const { timeslots } = response.data;
-            console.log(typeof timeslots[0].start_time);
-            setTimeslots(formatTime(timeslots));
-
-            // setDates(formatDate(timeslots));
-          } catch (err: any) {
-            console.log('Error fetching timeslots: ', err.response.data.error);
-          }
-      }
-
       fetchTimeslots();
       // eslint-disable-next-line
     }, [])
+
+    useEffect(() => {
+      fetchTimeslots();
+    }, [selectedDate])
+    
+    const handleDateChange = (date: Date) => {
+      setSelectedDate(date);
+    }
 
     const handleBookButton = (e: React.MouseEvent<HTMLButtonElement>) => {
 
@@ -57,11 +74,11 @@ const FacilityPage = () => {
         navigate(`/facilities/${facility?.category_id}`);
     }
 
-    const disabledDates = [
-            new Date('2023-05-05'),
-            new Date('2023-05-06'),
-            new Date('2023-05-10'),
-    ];
+    const enabledDates = () => {
+      return dates.map((date: string) => new Date(date));
+    };
+
+    const datePickerKey = dates.map((date: string) => date.split('')).join(',');
 
   return (
     <>
@@ -77,7 +94,17 @@ const FacilityPage = () => {
             <p className={styles.facilityDescription}>{facility.description}</p>
             <div className={styles.bookingSection}>
                 <h3>Select time slots</h3>
-                <div className={styles.datePicker}><DatePicker disabledDates={disabledDates} /></div>
+                {
+                  selectedDate && 
+                  <div className={styles.datePicker}>
+                  <DatePicker 
+                  key={datePickerKey}
+                  selected={selectedDate} 
+                  onChange={handleDateChange} 
+                  enabledDates={enabledDates()}/>
+                </div>
+                }
+
                 <div className={styles.timeslotsSection}>
                     {
                         timeslots &&

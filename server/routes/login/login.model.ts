@@ -13,7 +13,6 @@ export async function checkUserInDB(email: string, password: string) {
     const validatePassword = await comparePassword(password, hashedPassword);
 
     if (!validatePassword) throw new Error('Wrong user or password');
-    console.log(response);
     return {
         id: response[0][0].id,
         email: response[0][0].email,
