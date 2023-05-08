@@ -4,17 +4,19 @@ import "react-datepicker/dist/react-datepicker.css"
 interface IDatePickerProps {
     selected: Date;
     onChange: (date: Date) => void,
-    enabledDates: Date[]
+    enabledDates: Date[];
+    className: string;
 }
 
 
-const DatePicker = ({selected, onChange, enabledDates, ...rest} : IDatePickerProps) => {
+const DatePicker = ({selected, className, onChange, enabledDates, ...rest} : IDatePickerProps) => {
     return (
         <div>
              <ReactDatePicker 
                 selected={selected}
                 onChange={onChange}
                 includeDates={enabledDates}
+                className={className}
                 {...rest}
              />
         </div>

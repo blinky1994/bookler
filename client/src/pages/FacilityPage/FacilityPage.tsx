@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import DatePicker from '../../components/DatePicker/DatePicker'
 import { ITimeslot } from '../../context/categories.context'
 import { formatTime, getDatesInISOString, filterTimeslotsByDate } from '../../utils/formatDateTime'
+import Timeslots from '../../components/Timeslots/Timeslots'
 
 const FacilityPage = () => {
     const [facility, setFacility] = useState<IFacility>();
@@ -30,6 +31,7 @@ const FacilityPage = () => {
           if (selectedDate) {
             const filteredTimeSlots = filterTimeslotsByDate(selectedDate, timeslots);
             setTimeslots(formatTime(filteredTimeSlots));
+            console.log(filteredTimeSlots);
           } 
         } catch (err: any) {
           console.log('Error fetching timeslots: ', err.response.data.error);
@@ -93,29 +95,28 @@ const FacilityPage = () => {
             <img className={styles.facilityImage} src={facility.image_url} alt={facility.category}></img>
             <p className={styles.facilityDescription}>{facility.description}</p>
             <div className={styles.bookingSection}>
-                <h3>Select time slots</h3>
-                {
-                  selectedDate && 
-                  <div className={styles.datePicker}>
-                  <DatePicker 
-                  key={datePickerKey}
-                  selected={selectedDate} 
-                  onChange={handleDateChange} 
-                  enabledDates={enabledDates()}/>
-                </div>
-                }
-
-                <div className={styles.timeslotsSection}>
+            <hr></hr>
+                <div className={styles.dateHeader}>
+                  <h3>Date</h3>
                     {
-                        timeslots &&
-                        timeslots.map((timeslot: ITimeslot) => {
-                            return timeslot.isBooked ?
-                            //TODO: Create component for timeslots: Show booked, unbooked UI
-                             <span>Booked: {timeslot.time}</span> : 
-                             <span>Available: {timeslot.time}</span>
-                        } )
+                    selectedDate && 
+                    <DatePicker 
+                    key={datePickerKey}
+                    className={styles.datePicker}
+                    selected={selectedDate} 
+                    onChange={handleDateChange} 
+                    enabledDates={enabledDates()}/>
+                  }
+                </div>
+                <hr></hr>
+                <div className={styles.timeslotsHeader}>
+                  <h3>Time slots</h3>
+                    {
+                      timeslots &&
+                      <Timeslots timeslots={timeslots}/>
                     }
                 </div>
+
                 <div className={styles.bookButton}>
                     <Button onClick={handleBookButton} buttonStyle={buttonStyle.fill}>Book</Button>
                 </div>

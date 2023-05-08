@@ -1,0 +1,36 @@
+.spanFontSize {
+    font-size: 1.4rem;
+}
+
+.main {
+    padding: 0.8rem;
+    border: 1px solid black;
+    width: 10rem;
+    text-align: center
+}
+
+.default {
+    @extend .main;
+    border: 1px solid black;
+    span {
+        font-weight: normal;
+    }
+    @extend .spanFontSize;
+}
+
+
+
+.selected {
+    @extend .main;
+    background-color: rgb(165, 255, 143);
+    span {
+        font-weight: bold;
+    }
+     @extend .spanFontSize;
+}
+
+.booked {
+    opacity: 0.4;
+    @extend .main;
+    @extend .spanFontSize;
+}

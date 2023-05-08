@@ -18,7 +18,6 @@ const FacilitiesSection = () => {
         const response = await axios.get(`http://localhost:3001/facilities/${category_id}`);
         const { facilities } = response.data;
         setfacilities(facilities)
-        console.log('fetched: ', facilities);
       } catch (err: any) {
         console.log('Error fetching facilities: ', err.response.data.error);
       }
