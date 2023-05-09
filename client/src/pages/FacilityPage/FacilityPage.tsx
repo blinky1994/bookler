@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import DatePicker from '../../components/DatePicker/DatePicker'
 import { formatTimeData, getDatesInISOString, filterTimeslotsByDate } from '../../utils/formatDateTime'
 import Timeslots from '../../components/Timeslots/Timeslots'
+import ModalBookConfirm from '../../components/ModalBookConfirm/ModalBookConfirm'
 
 const FacilityPage = () => {
     const [facility, setFacility] = useState<IFacility>();
@@ -21,9 +22,12 @@ const FacilityPage = () => {
 
     const [bookings, setBookings] = useState<IBooking[]>([]);
 
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState('');
+
     const navigate = useNavigate();
   
-
     async function fetchTimeslots() {
       try {
           const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/timeslots`);
@@ -64,15 +68,27 @@ const FacilityPage = () => {
       fetchTimeslots();
       // eslint-disable-next-line
     }, [selectedDate])
-    
-    const handleDateChange = (date: Date) => {
-      setSelectedDate(date);
-    }
 
     useEffect(() => {
       console.log(bookings);
     }, [bookings])
     
+    useEffect(() => {
+        const disableScrolling = (modalOpen: boolean) => {
+          const html = document.querySelector('html');
+          if (html) {
+            html.style.overflow = modalOpen ? 'hidden' : 'auto';
+            console.log(html.style.overflow)
+          }
+        }
+  
+        disableScrolling(modalOpen);
+    }, [modalOpen])
+    
+    const handleDateChange = (date: Date) => {
+      setSelectedDate(date);
+    }
+
 
     const handleBooking = (timeslot: ITimeslot, isRemove : boolean) => {
     //   export interface ITimeslot {
@@ -89,6 +105,7 @@ const FacilityPage = () => {
       //   date: Date;
       //   time: string[]
       // }
+      setErrorMessage('');
 
       if (isRemove) {
         console.log('remove');
@@ -110,7 +127,18 @@ const FacilityPage = () => {
     }
 
     const handleBookButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+      setErrorMessage('');
 
+      if (!bookings.length) {
+        setErrorMessage('Please select one or more timeslots');
+        return;
+      }
+
+      handleModalOpen();
+    }
+
+    const handleModalOpen = () => {
+      setModalOpen(!modalOpen);
     }
 
     const handleClick = () => {
@@ -125,6 +153,10 @@ const FacilityPage = () => {
 
   return (
     <>
+    {
+      modalOpen && <ModalBookConfirm handleModalOpen={handleModalOpen} bookings={bookings} />
+    }
+      
     <NavBar />
     {
         facility ? 
@@ -157,6 +189,13 @@ const FacilityPage = () => {
                       <Timeslots handleBooking={handleBooking} timeslots={timeslots}/>
                     }
                 </div>
+                {
+                  errorMessage &&
+                  <div className={styles.errorMessage}>
+                      <span>{errorMessage}</span>
+                  </div>
+                  
+                }
 
                 <div className={styles.bookButton}>
                     <Button onClick={handleBookButton} buttonStyle={buttonStyle.fill}>Book</Button>
