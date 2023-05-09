@@ -1,6 +1,7 @@
 import styles from './FacilityPage.module.scss'
-import { useParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import { useState, useEffect, useContext } from 'react'
+import { UserContext } from '../../context/user.context'
 import { IFacility, ITimeslot, IBooking } from '../../interfaces/interfaces'
 import axios from 'axios'
 import NavBar from '../../components/NavBar/NavBar'
@@ -16,6 +17,7 @@ const FacilityPage = () => {
     const [facility, setFacility] = useState<IFacility>();
     const { facility_id } = useParams();
     const [timeslots, setTimeslots] = useState<ITimeslot[]>([]);
+    const [bookedTimeslots, setBookedTimeslots] = useState<ITimeslot[]>([]);
 
     const [selectedDate, setSelectedDate] = useState<Date>();
     const [dates, setDates] = useState<string[]>([]);
@@ -26,6 +28,10 @@ const FacilityPage = () => {
 
     const [errorMessage, setErrorMessage] = useState('');
 
+    const userContext = useContext(UserContext);
+    const user = userContext!.user;
+    
+
     const navigate = useNavigate();
   
     async function fetchTimeslots() {
@@ -35,7 +41,9 @@ const FacilityPage = () => {
           setDates(getDatesInISOString(timeslots));
           if (selectedDate) {
             const filteredTimeSlots = filterTimeslotsByDate(selectedDate, timeslots);
-            setTimeslots(formatTimeData(filteredTimeSlots, facility!.name));
+            const formattedTimeSlots = formatTimeData(filteredTimeSlots, facility!.name)
+            setTimeslots(formattedTimeSlots);
+            setBookedTimeslots(formattedTimeSlots.filter(timeslot => timeslot.isBooked === true));
           } 
         } catch (err: any) {
           console.log('Error fetching timeslots: ', err.response.data.error);
@@ -154,7 +162,7 @@ const FacilityPage = () => {
   return (
     <>
     {
-      modalOpen && <ModalBookConfirm handleModalOpen={handleModalOpen} bookings={bookings} />
+      modalOpen && <ModalBookConfirm handleModalOpen={handleModalOpen} bookings={bookings} user={user} />
     }
       
     <NavBar />
@@ -197,9 +205,28 @@ const FacilityPage = () => {
                   
                 }
 
-                <div className={styles.bookButton}>
+                {
+                  user ? 
+                  bookedTimeslots.length === timeslots.length ?
+                    <div className={styles.bookButtonDisabled}>
+                    <Button buttonStyle={buttonStyle.fill}>No available times</Button>
+                    </div>
+                  :
+                    <div className={styles.bookButton}>
                     <Button onClick={handleBookButton} buttonStyle={buttonStyle.fill}>Book</Button>
-                </div>
+                    </div>
+                  :
+                  <div className={styles.loginMessage}>
+
+                      <Link to={'/login'}>
+                        <span className={styles.logInLink}>Log in</span>
+                      </Link>
+                      <span> to book</span>
+                  </div>
+
+                }
+
+
             </div>
         </div>
         :

@@ -67,7 +67,7 @@ const LoginPage = () => {
                     id,
                     email
                 });
-                navigate('/');
+                navigate(-1);
                 // setMenu(false);
                 
             }).catch(err => {
