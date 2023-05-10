@@ -17,8 +17,7 @@ export async function getFacilitiesFromDB(cat_id : number | undefined) {
     const facilities = [];
 
     for (const data of facilitiesData[0]) {
-        const { id, details, category_id, image_url } = data;
-        const { name, description } = JSON.parse(details);
+        const { id, name, description, category_id, image_url } = data;
     
         const categoryData = await db.query(`
             SELECT name FROM categories
@@ -47,10 +46,7 @@ export async function getFacilityFromDB(facility_id: number) {
 
     if (!facilityData[0][0]) throw new Error('No facility found');
 
-    const { id, category_id, details, image_url } = facilityData[0][0];
-    const facilityObj = JSON.parse(details);
-
-    const { name, description } = facilityObj;
+    const { id, category_id, name, description, image_url } = facilityData[0][0];
 
     const categoryName = (await db.query(`
         SELECT name FROM categories WHERE id = '${category_id}'
@@ -69,7 +65,7 @@ export async function getFacilityFromDB(facility_id: number) {
 
 export async function getFacilityTimeSlotsFromDB(facility_id: number) {
     const timeslotsData = await db.query(`
-        SELECT id, start_time, end_time FROM timeslots
+        SELECT id, start_time, end_time, slots FROM timeslots
         WHERE facility_id = '${facility_id}'
     `);
 
@@ -78,7 +74,7 @@ export async function getFacilityTimeSlotsFromDB(facility_id: number) {
     const timeslots = [];
 
     for (const data of timeslotsData[0]) {
-        const { id, start_time, end_time } = data;
+        const { id, start_time, end_time, slots } = data;
         const bookingData = await db.query(`
             SELECT id FROM bookings_timeslots 
             WHERE timeslot_id = '${id}'
@@ -92,6 +88,7 @@ export async function getFacilityTimeSlotsFromDB(facility_id: number) {
             date,
             start_time, 
             end_time,
+            slots,
             isBooked
         })
     }

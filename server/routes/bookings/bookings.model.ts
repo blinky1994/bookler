@@ -10,27 +10,43 @@ export async function addBookingInDB(user_id: number, timeslots: number[]) {
     }
 }
 
-async function createBookingInDB(user_id: number, timeslots: number[]) {
-    let sql = `
-    INSERT INTO bookings (
-        user_id
-    )
-    VALUES (
-        '${user_id}'
-    );
-    `;
+async function checkTimeSlotsAvailable(timeslots: number[]) {
+    for (const timeslot_id of timeslots) {
+        const response = await db.query(`
+        SELECT slots FROM timeslots WHERE id = '${timeslot_id}';
+        `);
+        const { slots } = response[0][0];  
+        
+        if (slots === 0) throw new Error('Timeslot is out of slots');
+    }
 
-    const response = await db.query(sql);
+}
+
+async function decrementTimeslot(timeslot_id: number) {
+    await db.query(`
+        UPDATE timeslots SET slots = slots-1 WHERE id = '${timeslot_id}'
+    `);
+}
+
+async function createBookingInDB(user_id: number, timeslots: number[]) {
+    await checkTimeSlotsAvailable(timeslots);
+    const response = await db.query(`
+        INSERT INTO bookings (
+            user_id
+        )
+        VALUES (
+            '${user_id}'
+        );
+        `);
+
     const insertID = response[0].insertId;
 
-    sql = `
+    const response2 = await db.query(`
         SELECT id, user_id FROM bookings WHERE id = '${insertID}'
-    `
+    `);
 
-    const response2 = await db.query(sql);
     const booking_id = response2[0][0].id;
     const userID = response2[0][0].user_id;
-
 
     await processTimeslots(booking_id, timeslots);
 
@@ -51,22 +67,36 @@ async function processTimeslots(booking_id: number, timeslots: number[]) {
             '${booking_id}', '${timeslot_id}'
         );
         `);
+
+        await decrementTimeslot(timeslot_id);
     }
 }
 
 export async function updateBookingInDB(booking_id : number, timeslots: number[]) {
+    await checkTimeSlotsAvailable(timeslots);
     const bookings = await db.query(`
         SELECT id FROM bookings WHERE id = '${booking_id}'
     `)
 
     if (!bookings[0][0]) throw new Error('Booking does not exist');
 
-    let sql = `
-        DELETE FROM bookings_timeslots
-        WHERE booking_id = '${booking_id}';
-    `;
+    // Update all the slot counts for current timeslots in booking
+    const timeslot_ids = (await db.query(`
+        SELECT timeslot_id FROM bookings_timeslots WHERE booking_id = '${booking_id}';
+    `))[0];
+    console.log(timeslot_ids);
+    for (const timeslotObj of timeslot_ids) {
+        const { timeslot_id } = timeslotObj;
+        await db.query(`
+            UPDATE timeslots SET slots = slots+1 WHERE id = '${timeslot_id}';
+        `)
+    }
+    
 
-    await db.query(sql); // Delete previous timeslots before updating
+    // Delete previous timeslots before updating
+    await db.query(`
+    DELETE FROM bookings_timeslots
+    WHERE booking_id = '${booking_id}';`); 
 
     // Delete from bookings table if there are no timeslots
     if (timeslots.length === 0) {
@@ -95,11 +125,9 @@ export async function deleteBookingInDB(booking_id: number) {
 }
 
 export async function getBookingFromDB(user_id: number) {
-    let sql = `
-        SELECT id FROM bookings WHERE user_id = '${user_id}';
-    `;
-
-    const booking_ids = (await db.query(sql))[0];
+    const booking_ids = (await db.query(`
+        SELECT id FROM bookings WHERE user_id = '${user_id}';`)
+    )[0];
 
     if (booking_ids.length === 0) throw new Error('User has no bookings');
 

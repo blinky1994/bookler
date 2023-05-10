@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const FacilitiesSection = () => {
-  const [facilities, setfacilities] = useState<IFacility[]>([]);
+  const [facilities, setFacilities] = useState<IFacility[]>([]);
   const { category_id } = useParams();
 
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const FacilitiesSection = () => {
       try {
         const response = await axios.get(`http://localhost:3001/facilities/${category_id}`);
         const { facilities } = response.data;
-        setfacilities(facilities)
+        setFacilities(facilities)
       } catch (err: any) {
         console.log('Error fetching facilities: ', err.response.data.error);
       }
