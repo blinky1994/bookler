@@ -3,17 +3,20 @@
 }
 
 .main {
-    padding: 0.8rem;
     border: 1px solid black;
-    width: 10rem;
-    text-align: center
+    width: 12rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 }
 
 .default {
     @extend .main;
     border: 1px solid black;
+    
     span {
         font-weight: normal;
+        margin: 1rem 0;
     }
     @extend .spanFontSize;
 }
@@ -25,12 +28,29 @@
     background-color: rgb(165, 255, 143);
     span {
         font-weight: bold;
+        margin: 1rem 0;
     }
      @extend .spanFontSize;
 }
 
 .booked {
     opacity: 0.4;
+    span {
+        font-weight: bold;
+        margin: 1rem 0;
+    }
     @extend .main;
     @extend .spanFontSize;
+}
+
+.slots {
+    height: 2rem;
+    // background-color: rgb(216, 216, 216);
+    border-top: 1px solid black;
+    padding: 0.4rem;
+    span {
+        // text-transform: uppercase;
+        opacity: 0.65;
+        font-weight: bold;
+    }
 }

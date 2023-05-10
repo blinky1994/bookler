@@ -2,14 +2,14 @@ import { ITimeslot } from "../interfaces/interfaces";
 
 export function formatTimeData(timeslots: any, facilityName: string): ITimeslot[] {
     return timeslots.map((timeslot: any) => {
-        const { id, start_time, end_time, isBooked } = timeslot;
+        const { id, start_time, end_time, slots } = timeslot;
 
         return {
             id,
             facilityName,
             date: getDateString(start_time),
             time: getStartEndTime(start_time, end_time),
-            isBooked
+            slots
         }
     })
 }

@@ -17,10 +17,10 @@ interface ITimeslotProps {
 const Timeslot = ({timeslot, handleBooking}: ITimeslotProps) => {
     const [isSelected, setIsSelected] = useState(false);
 
-    const { isBooked, time } = timeslot;
+    const { slots, time } = timeslot;
 
     const handleClick = () => {
-        if (isBooked) return;
+        if (slots === 0) return;
         
         handleBooking(timeslot, isSelected);
         
@@ -29,10 +29,13 @@ const Timeslot = ({timeslot, handleBooking}: ITimeslotProps) => {
 
   return (
         <div onClick={handleClick} 
-        className={isBooked ? styles.booked : 
+        className={slots === 0 ? styles.booked : 
             isSelected? styles.selected : styles.default 
         }>
             <span>{time}</span>
+            <div className={styles.slots}>
+                <span>{slots} slots</span>
+            </div>
         </div>
   )
 }

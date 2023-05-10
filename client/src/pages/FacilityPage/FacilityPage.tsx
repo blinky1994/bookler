@@ -43,7 +43,7 @@ const FacilityPage = () => {
             const filteredTimeSlots = filterTimeslotsByDate(selectedDate, timeslots);
             const formattedTimeSlots = formatTimeData(filteredTimeSlots, facility!.name)
             setTimeslots(formattedTimeSlots);
-            setBookedTimeslots(formattedTimeSlots.filter(timeslot => timeslot.isBooked === true));
+            setBookedTimeslots(formattedTimeSlots.filter(timeslot => timeslot.slots === 0));
           } 
         } catch (err: any) {
           console.log('Error fetching timeslots: ', err.response.data.error);
@@ -76,17 +76,12 @@ const FacilityPage = () => {
       fetchTimeslots();
       // eslint-disable-next-line
     }, [selectedDate])
-
-    useEffect(() => {
-      console.log(bookings);
-    }, [bookings])
     
     useEffect(() => {
         const disableScrolling = (modalOpen: boolean) => {
           const html = document.querySelector('html');
           if (html) {
             html.style.overflow = modalOpen ? 'hidden' : 'auto';
-            console.log(html.style.overflow)
           }
         }
   
@@ -209,7 +204,7 @@ const FacilityPage = () => {
                   user ? 
                   bookedTimeslots.length === timeslots.length ?
                     <div className={styles.bookButtonDisabled}>
-                    <Button buttonStyle={buttonStyle.fill}>No available times</Button>
+                    <Button buttonStyle={buttonStyle.fill}>Not Available</Button>
                     </div>
                   :
                     <div className={styles.bookButton}>

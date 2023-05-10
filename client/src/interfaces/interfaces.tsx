@@ -10,7 +10,7 @@ export interface ITimeslot {
     date: string;
     time: string;
     facilityName: string;
-    isBooked: boolean;
+    slots: number;
 }
 
 export interface IFacility {
