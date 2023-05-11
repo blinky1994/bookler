@@ -19,7 +19,6 @@ interface IModalConfirmPageProps extends IModalConfirmProps {
 }
 
 const BookConfirmPageOne = ({handleModalOpen, bookings, user, setCurrentPage} : IModalConfirmPageProps) => {
-
     const handleConfirmButton = () => {
         async function makeBooking() {
             try {
@@ -27,11 +26,10 @@ const BookConfirmPageOne = ({handleModalOpen, bookings, user, setCurrentPage} : 
                     user_id: user!.id,
                     timeslots: bookings.map(booking => booking.id)
                 }
-                console.log(userData);
                 await axios.post('http://localhost:3001/bookings', userData);
                 setCurrentPage(2);
-            } catch (err) {
-                console.log('Error making a booking', err)
+            } catch (err: any) {
+                console.log('Error making a booking', err.response.data.error)
             }
         }
 
@@ -57,7 +55,10 @@ const BookConfirmPageOne = ({handleModalOpen, bookings, user, setCurrentPage} : 
                     <div className={styles.timeslotsSection}>
                         {
                             bookings.map(booking => 
-                                <span className={styles.detailText}>{booking.time}</span>
+                                <span 
+                                    key={booking.id + booking.facilityName}
+                                    className={styles.detailText}
+                                >{booking.time}</span>
                             )
                         }
                     </div>
@@ -99,7 +100,6 @@ const BookConfirmPageTwo = ({handleModalOpen, bookings, user} : IModalConfirmPag
 
 const ModalBookConfirm = ({handleModalOpen, bookings, user} : IModalConfirmProps) => {
     const [currentPage, setCurrentPage]  = useState<1|2>(1);
-
   return (
     <>
         <div className={styles.main}>

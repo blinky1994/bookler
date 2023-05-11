@@ -36,10 +36,10 @@ export async function updateBooking(req : Request, res: Response) {
 export async function getBooking(req : Request, res: Response) {
     const { user_id } = req.params;
     try {
-        const booking = await getBookingFromDB(parseInt(user_id, 10));
+        const bookings = await getBookingFromDB(parseInt(user_id, 10));
         console.log('Successfully retrieved booking');
         res.status(200).json({
-            booking
+            bookings
         })
     } catch (err : any) {
         console.log('Error retrieving booking: ', err);

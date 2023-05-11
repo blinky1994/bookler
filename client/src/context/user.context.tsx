@@ -10,10 +10,6 @@ interface IUserContext {
     setUser: Dispatch<SetStateAction<IUserAccount | null>>;
 }
 
-const initialValue = {
-    id: '',
-    email: ''
-}
 
 export const UserContext = createContext<IUserContext | null>(null);
 
@@ -22,7 +18,10 @@ interface IUserContextProviderProps {
   }
 
 export const UserContextProvider : React.FC<IUserContextProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<IUserAccount | null>(null);
+    const [user, setUser] = useState<IUserAccount | null>({
+        id: '74',
+        email: "ivanchenyifan@hotmail.com"
+    });
     
     return (
         <UserContext.Provider value={{user, setUser}}>{children}</UserContext.Provider>

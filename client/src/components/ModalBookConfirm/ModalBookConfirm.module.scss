@@ -5,7 +5,8 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    z-index: 1;
+    top: 0;
+    z-index: 2;
 
     .skim {
         position: fixed;

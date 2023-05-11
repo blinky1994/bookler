@@ -27,6 +27,11 @@ const SideMenu = () => {
         navigate('/');
     }
 
+    const handleMyBookingsButton = () => {
+        setMenu(!menu);
+        navigate('/bookings');
+    }
+
     
     return (
     <>
@@ -42,7 +47,7 @@ const SideMenu = () => {
                 <h1>Bookler</h1>
                 <div className={styles.buttons}>
                     <Button onClick={handleViewAllFacilitiesButton} buttonStyle={buttonStyle.stroke}>View All Facilities</Button>
-                    <Button buttonStyle={buttonStyle.stroke}>My Bookings</Button>
+                    <Button onClick={handleMyBookingsButton} buttonStyle={buttonStyle.stroke}>My Bookings</Button>
                 </div>
                 <div className={styles.greeting}>
                     <span>Logged in as</span>

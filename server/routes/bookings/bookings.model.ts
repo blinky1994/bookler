@@ -84,7 +84,6 @@ export async function updateBookingInDB(booking_id : number, timeslots: number[]
     const timeslot_ids = (await db.query(`
         SELECT timeslot_id FROM bookings_timeslots WHERE booking_id = '${booking_id}';
     `))[0];
-    console.log(timeslot_ids);
     for (const timeslotObj of timeslot_ids) {
         const { timeslot_id } = timeslotObj;
         await db.query(`
@@ -156,15 +155,16 @@ export async function getBookingFromDB(user_id: number) {
             });
         }
 
-        const facility = await db.query(`
-                SELECT details FROM facilities
+        const facilityData = (await db.query(`
+                SELECT name FROM facilities
                 WHERE id = '${facility_id}';
-            `);
-        const facilityParsed = JSON.parse(facility[0][0].details);
+        `))[0][0];
+
+        const { name } = facilityData;
 
         bookings.push({
             booking_id,
-            facility: facilityParsed,
+            facilityName: name,
             timeslots: timeslots_timings
         })
     }

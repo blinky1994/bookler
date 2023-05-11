@@ -72,6 +72,7 @@ const LoginPage = () => {
                 
             }).catch(err => {
                 console.log('Error logging in: ', err.response.data.error);
+                console.log(err);
                 setErrorMessage(err.response.data.error.slice(6));
             })      
         };

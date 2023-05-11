@@ -49,8 +49,7 @@ function getStartEndTime(start_time: string, end_time: string) {
 }
 
 function getTimeString(time: string) {
-    const datetime = new Date(time);
-    const timeString = datetime.toLocaleTimeString('en-US', {
+    const timeString = new Date(time).toLocaleTimeString('en-US', {
         hour12: false,
         hour: '2-digit', 
         minute: '2-digit'}

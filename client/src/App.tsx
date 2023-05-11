@@ -5,6 +5,7 @@ import FacilitiesPage from "./pages/FacilitiesPage/FacilitiesPage";
 import FacilityPage from "./pages/FacilityPage/FacilityPage";
 import { UserContextProvider } from "./context/user.context";
 import { MenuContextProvider } from "./context/menu.context";
+import BookingsPage from "./pages/BookingsPage/BookingsPage";
 
 import {
   BrowserRouter,
@@ -24,6 +25,7 @@ function App() {
             <Route path="/facilities/facility/:facility_id" element={<FacilityPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/bookings" element={<BookingsPage />} />
           </Routes>
           </div>
         </BrowserRouter>
