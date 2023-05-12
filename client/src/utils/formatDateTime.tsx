@@ -1,4 +1,26 @@
-import { ITimeslot } from "../interfaces/interfaces";
+import { ITimeslot, IBooking, IBookingData } from "../interfaces/interfaces";
+
+// export interface IBooking {
+//     id: number;
+//     facilityName: string;
+//     date: string;
+//     time: string
+// }
+
+export function formatBookings(bookings: IBookingData[]) : IBooking[] {
+    return bookings.map((booking : IBookingData) => {
+        const { id, facilityName, timeslots } = booking;
+
+        const formattedTimeslots = formatTimeData(timeslots, facilityName);
+        
+        return {
+            id,
+            facilityName,
+            date: getDateString(timeslots[0].start_time),
+            timeslots: formattedTimeslots
+        }
+    })
+}
 
 export function formatTimeData(timeslots: any, facilityName: string): ITimeslot[] {
     return timeslots.map((timeslot: any) => {

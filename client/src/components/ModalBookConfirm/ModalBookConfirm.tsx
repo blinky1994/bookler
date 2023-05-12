@@ -1,6 +1,6 @@
 import styles from './ModalBookConfirm.module.scss'
 import Button, { buttonStyle } from '../Button/Button';
-import { IBooking } from '../../interfaces/interfaces';
+import { IBookedTimeSlot } from '../../interfaces/interfaces';
 import { useEffect, useState } from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface IModalConfirmProps {
     handleModalOpen: () => void;
-    bookings: IBooking[];
+    bookings: IBookedTimeSlot[];
     user: IUserAccount | null
 }
 
@@ -81,6 +81,10 @@ const BookConfirmPageTwo = ({handleModalOpen, bookings, user} : IModalConfirmPag
         navigate('/');
     }
 
+    const handleMyBookingsButton = () => {
+        navigate('/bookings');
+    }
+
     return (
         <div className={styles.pageTwoSection}>
         <div className={styles.headerSection}>
@@ -90,7 +94,7 @@ const BookConfirmPageTwo = ({handleModalOpen, bookings, user} : IModalConfirmPag
 
 
         <div className={styles.buttonsSection}>
-                <Button buttonStyle={buttonStyle.fill}>My Bookings</Button>
+                <Button onClick={handleMyBookingsButton} buttonStyle={buttonStyle.fill}>My Bookings</Button>
                 <Button onClick={handleHomeButton} buttonStyle={buttonStyle.stroke}>Return Home</Button>
         </div>
     </div>

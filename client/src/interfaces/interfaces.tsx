@@ -1,10 +1,29 @@
-export interface IBooking {
+export interface IBookingData {
+    id: number;
+    facilityName: string;
+    timeslots: ITimeslotData[]
+}
+
+export interface ITimeslotData {
+    start_time: string;
+    end_time: string;
+}
+  
+
+export interface IBookedTimeSlot {
   id: number;
   facilityName: string;
   date: string;
   time: string
 }
 
+export interface IBooking {
+    id: number;
+    facilityName: string;
+    date: string;
+    timeslots: ITimeslot[];
+}
+  
 export interface ITimeslot {
     id: number;
     date: string;

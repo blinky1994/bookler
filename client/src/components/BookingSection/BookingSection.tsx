@@ -2,7 +2,7 @@ import styles from './BookingSection.module.scss'
 import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../../context/user.context'
-import { IFacility, ITimeslot, IBooking } from '../../interfaces/interfaces'
+import { IFacility, ITimeslot, IBookedTimeSlot } from '../../interfaces/interfaces'
 import axios from 'axios'
 import Button, { buttonStyle } from '../../components/Button/Button'
 import DatePicker from '../../components/DatePicker/DatePicker'
@@ -19,7 +19,7 @@ const BookingSection = () => {
     const [selectedDate, setSelectedDate] = useState<Date>();
     const [dates, setDates] = useState<string[]>([]);
 
-    const [bookings, setBookings] = useState<IBooking[]>([]);
+    const [bookings, setBookings] = useState<IBookedTimeSlot[]>([]);
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -96,11 +96,11 @@ const BookingSection = () => {
       //     isBooked: boolean;
       // }
       
-        // export interface iBooking {
-        //   id: number[];
+        // export interface IBookedTimeSlot {
+        //   id: number;
         //   facility: string;
         //   date: Date;
-        //   time: string[]
+        //   time: string
         // }
         setErrorMessage('');
   

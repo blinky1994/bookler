@@ -3,48 +3,21 @@ import NavBar from '../../components/NavBar/NavBar'
 import MyBookingCard from '../../components/MyBookingCard/MyBookingCard'
 import { useState, useEffect, useContext } from 'react'
 import { IBooking } from '../../interfaces/interfaces'
-import { formatTimeData, getDatesInISOString, filterTimeslotsByDate } from '../../utils/formatDateTime'
+import { formatBookings } from '../../utils/formatDateTime'
 import axios from 'axios'
 import { UserContext } from '../../context/user.context'
 
 const BookingsPage = () => {
-    const [bookings, setBookings] = useState<any[]>([]);
+    const [bookings, setBookings] = useState<IBooking[]>([]);
     const userContext = useContext(UserContext);
     const user = userContext!.user;
-
-    //     {
-    //         "booking_id": 112,
-    //         "facilityName": "Basketball Court 1",
-    //         "timeslots": [
-    //             {
-    //                 "start_time": "2023-05-01T08:00:00.000Z",
-    //                 "end_time": "2023-05-01T09:00:00.000Z"
-    //             }
-    //         ]
-    //     }
-
-    // export interface IBooking {
-    //     id: number;
-    //     facilityName: string;
-    //     date: string;
-    //     time: string
-    //   }
-
-    // export interface ITimeslot {
-    //     id: number;
-    //     date: string;
-    //     time: string;
-    //     facilityName: string;
-    //     slots: number;
-    // }
 
     async function fetchBookings() {
         try {
             const response = await axios.get(`http://localhost:3001/bookings/users/${user!.id}`);
-            console.log(response);
             const { bookings } = response.data;
-            setBookings(bookings);
-            //TODO Create inteface for bookingData
+            const formattedBookings = formatBookings(bookings);
+            setBookings(formattedBookings);
           } catch (err: any) {
             console.log('Error fetching bookings: ', err.response.data.error);
           }
@@ -65,7 +38,7 @@ const BookingsPage = () => {
                     bookings &&
                     bookings.map((booking: any) => 
                         <MyBookingCard 
-                            key={booking.id + booking.name}
+                            key={booking.facilityName + booking.id}
                             booking={booking}
                         />
                     )

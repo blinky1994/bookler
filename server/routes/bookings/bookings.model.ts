@@ -144,14 +144,17 @@ export async function getBookingFromDB(user_id: number) {
         for (const timeslotObj of timeslotsObjects) {
             const { timeslot_id } = timeslotObj;
             const timing = await db.query(`
-                SELECT start_time, end_time, facility_id FROM timeslots
+                SELECT id, start_time, end_time, facility_id, slots FROM timeslots
                 WHERE id = '${timeslot_id}';
             `);
 
+            const { id, start_time, end_time, slots} = timing[0][0];
             facility_id = timing[0][0].facility_id
             timeslots_timings.push({
-                start_time: timing[0][0].start_time,
-                end_time: timing[0][0].end_time
+                id,
+                start_time,
+                end_time,
+                slots          
             });
         }
 
@@ -163,7 +166,7 @@ export async function getBookingFromDB(user_id: number) {
         const { name } = facilityData;
 
         bookings.push({
-            booking_id,
+            id: booking_id,
             facilityName: name,
             timeslots: timeslots_timings
         })
