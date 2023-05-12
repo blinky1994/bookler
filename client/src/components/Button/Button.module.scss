@@ -17,6 +17,13 @@
     @extend .shared;
 }
 
+.delete {
+    background-color: #c72323;
+    border-color: #c72323;
+    color: white;
+    @extend .shared;
+}
+
 .stroke {
     color: blue($color: #000000);
     background-color: white;

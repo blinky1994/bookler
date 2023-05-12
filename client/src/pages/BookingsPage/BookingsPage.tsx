@@ -40,6 +40,7 @@ const BookingsPage = () => {
                         <MyBookingCard 
                             key={booking.facilityName + booking.id}
                             booking={booking}
+                            fetchBookings={fetchBookings}
                         />
                     )
                 }

@@ -41,8 +41,11 @@ export async function getFacility(req: Request, res: Response) {
 
 export async function getFacilityTimeSlots(req: Request, res: Response) {
     try {
-        const { facility_id } = req.params;
-        const timeslots = await getFacilityTimeSlotsFromDB(parseInt(facility_id, 10));
+        const { facility_id, user_id } = req.params;
+        const timeslots = await getFacilityTimeSlotsFromDB(
+            parseInt(facility_id, 10),
+            parseInt(user_id, 10)
+        );
         console.log('Successfully retrieved timeslots');
         res.status(200).json({
             timeslots

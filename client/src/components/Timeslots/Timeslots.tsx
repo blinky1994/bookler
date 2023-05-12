@@ -16,6 +16,7 @@ const Timeslots = ({ timeslots, handleBooking } : ITimeslotsProp) => {
                 key={timeslot.id + timeslot.time}
                 timeslot={timeslot}
                 handleBooking={handleBooking}
+                selected={timeslot.selected}
             />
             )
         }

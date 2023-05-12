@@ -63,7 +63,7 @@ export async function getFacilityFromDB(facility_id: number) {
     };
 }
 
-export async function getFacilityTimeSlotsFromDB(facility_id: number) {
+export async function getFacilityTimeSlotsFromDB(facility_id: number, client_user_id: number) {
     const timeslotsData = await db.query(`
         SELECT id, start_time, end_time, slots FROM timeslots
         WHERE facility_id = '${facility_id}'
@@ -78,12 +78,31 @@ export async function getFacilityTimeSlotsFromDB(facility_id: number) {
 
         const date = (new Date(start_time));
 
+        let isBooked = false;
+
+        const bookingData = (await db.query(`
+        SELECT booking_id FROM bookings_timeslots WHERE timeslot_id = '${id}';
+        `))[0][0];
+
+        if (bookingData) {
+            const { booking_id } = bookingData;
+            const userData = (await db.query(`
+                SELECT user_id FROM bookings WHERE id = '${booking_id}';
+            `))[0][0];
+
+            if (userData) {
+                const { user_id } = userData;
+                isBooked = (user_id === client_user_id);
+            }
+        }
+
         timeslots.push({
             id,
             date,
             start_time, 
             end_time,
             slots,
+            isBooked
         })
     }
     return timeslots;

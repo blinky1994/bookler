@@ -54,9 +54,9 @@ const BookConfirmPageOne = ({handleModalOpen, bookings, user, setCurrentPage} : 
                     <h3>Selected times</h3>
                     <div className={styles.timeslotsSection}>
                         {
-                            bookings.map(booking => 
+                            bookings.map((booking, idx) => 
                                 <span 
-                                    key={booking.id + booking.facilityName}
+                                    key={booking.id + booking.facilityName + idx}
                                     className={styles.detailText}
                                 >{booking.time}</span>
                             )

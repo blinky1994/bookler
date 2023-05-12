@@ -15,7 +15,8 @@ export interface IBookedTimeSlot {
   id: number;
   facilityName: string;
   date: string;
-  time: string
+  time: string;
+  timeslot: ITimeslot;
 }
 
 export interface IBooking {
@@ -30,8 +31,11 @@ export interface ITimeslot {
     id: number;
     date: string;
     time: string;
+    start_time: string;
+    end_time: string;
     facilityName: string;
     slots: number;
+    selected: boolean;
 }
 
 export interface IFacility {

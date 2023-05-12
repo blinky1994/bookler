@@ -18,21 +18,24 @@ export function formatBookings(bookings: IBookingData[]) : IBooking[] {
             facility_id,
             facilityName,
             date: getDateString(timeslots[0].start_time),
-            timeslots: formattedTimeslots
+            timeslots: formattedTimeslots,
         }
     })
 }
 
 export function formatTimeData(timeslots: any, facilityName: string): ITimeslot[] {
     return timeslots.map((timeslot: any) => {
-        const { id, start_time, end_time, slots } = timeslot;
+        const { id, start_time, end_time, slots, isBooked } = timeslot;
 
         return {
             id,
             facilityName,
             date: getDateString(start_time),
             time: getStartEndTime(start_time, end_time),
-            slots
+            start_time,
+            end_time,
+            slots,
+            selected: isBooked
         }
     })
 }

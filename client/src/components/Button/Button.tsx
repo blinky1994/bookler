@@ -13,7 +13,8 @@ interface IButtonStyle {
 
 export const buttonStyle : IButtonStyle = {
     fill: styles.fill,
-    stroke: styles.stroke
+    stroke: styles.stroke,
+    delete: styles.delete
 }
 
 const Button : React.FC<IButtonProps> = ({buttonStyle, children, ...rest}) => {

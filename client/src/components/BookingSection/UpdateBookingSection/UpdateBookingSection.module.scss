@@ -23,6 +23,19 @@
         margin: 3.2rem 0;
     }
 
+    .buttonSection{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1.6rem;
+        gap: 1.6rem;
+
+        .deleteButton {
+            background-color: red
+        }
+    }
+
     .bookButton {
         @extend .button;
         opacity: 1;

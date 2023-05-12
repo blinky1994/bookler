@@ -1,10 +1,11 @@
 import { ITimeslot } from '../../../interfaces/interfaces';
 import styles from './Timeslot.module.scss'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface ITimeslotProps {
     timeslot: ITimeslot
     handleBooking: (timeslot: ITimeslot, isRemove: boolean) => void;
+    selected: boolean;
 }
 
 // export interface ITimeslot {
@@ -14,7 +15,14 @@ interface ITimeslotProps {
 //     isBooked: boolean;
 // }
 
-const Timeslot = ({timeslot, handleBooking}: ITimeslotProps) => {
+const Timeslot = ({timeslot, handleBooking, selected}: ITimeslotProps) => {
+    useEffect(() => {
+        if (selected) {
+            handleBooking(timeslot, false);
+            setIsSelected(selected);
+        }
+    }, [])
+
     const [isSelected, setIsSelected] = useState(false);
 
     const { slots, time } = timeslot;

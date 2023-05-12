@@ -29,7 +29,7 @@ const BookingSection = ({ facility_id } : any) => {
 
     async function fetchTimeslots() {
         try {
-            const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/timeslots`);
+            const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/${user!.id}/timeslots`);
             const { timeslots } = response.data;
             setDates(getDatesInISOString(timeslots));
             if (selectedDate) {
@@ -107,13 +107,13 @@ const BookingSection = ({ facility_id } : any) => {
           setBookings(bookings!.filter(booking => booking.id !== timeslot.id))
         } 
         else {
-
           const { id, facilityName, date, time } = timeslot;
           const newBookings = [...bookings, {
             id,
             facilityName,
             date,
-            time
+            time,
+            timeslot
           }];
 
           setBookings(newBookings)

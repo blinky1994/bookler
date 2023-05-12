@@ -2,15 +2,15 @@ import styles from './UpdateBookingSection.module.scss'
 import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../../../context/user.context'
-import { IFacility, ITimeslot, IBookedTimeSlot } from '../../../interfaces/interfaces'
+import { IFacility, ITimeslot, IBookedTimeSlot, IBooking } from '../../../interfaces/interfaces'
 import axios from 'axios'
 import Button, { buttonStyle } from '../../../components/Button/Button'
 import DatePicker from '../../../components/DatePicker/DatePicker'
 import { formatTimeData, getDatesInISOString, filterTimeslotsByDate } from '../../../utils/formatDateTime'
 import Timeslots from '../../../components/Timeslots/Timeslots'
-import ModalBookConfirm from '../../../components/ModalBookConfirm/ModalBookConfirm'
+import { useNavigate } from 'react-router-dom'
 
-const UpdateBookingSection = ({ facility_id } : any) => {
+const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any) => {
     const [facility, setFacility] = useState<IFacility>();
     const [timeslots, setTimeslots] = useState<ITimeslot[]>([]);
     const [bookedTimeslots, setBookedTimeslots] = useState<ITimeslot[]>([]);
@@ -20,27 +20,37 @@ const UpdateBookingSection = ({ facility_id } : any) => {
 
     const [bookings, setBookings] = useState<IBookedTimeSlot[]>([]);
 
-    const [modalOpen, setModalOpen] = useState(false);
-
     const [errorMessage, setErrorMessage] = useState('');
 
     const userContext = useContext(UserContext);
     const user = userContext!.user;
 
+    const navigate = useNavigate();
+
     async function fetchTimeslots() {
         try {
-            const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/timeslots`);
+            const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/${user!.id}/timeslots`);
             const { timeslots } = response.data;
             setDates(getDatesInISOString(timeslots));
-            if (selectedDate) {
+            if (selectedDate && facility) {
               const filteredTimeSlots = filterTimeslotsByDate(selectedDate, timeslots);
               const formattedTimeSlots = formatTimeData(filteredTimeSlots, facility!.name)
               setTimeslots(formattedTimeSlots);
               setBookedTimeslots(formattedTimeSlots.filter(timeslot => timeslot.slots === 0));
             } 
           } catch (err: any) {
-            console.log('Error fetching timeslots: ', err.response.data.error);
+            console.log('Error fetching timeslots: ', err.response ? err.response.data.error : err);
           }
+      }
+
+      async function fetchFacility() {
+        try {
+          const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}`);
+          const { facility } = response.data;
+          setFacility(facility)
+        } catch (err: any) {
+          console.log('Error fetching facility: ', err.response ? err.response.data.error : err);
+        }
       }
   
       useEffect(() => {
@@ -51,35 +61,20 @@ const UpdateBookingSection = ({ facility_id } : any) => {
       }, [dates, selectedDate])
   
       useEffect(() => {
-        async function fetchFacility() {
-          try {
-            const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}`);
-            const { facility } = response.data;
-            setFacility(facility)
-          } catch (err: any) {
-            console.log('Error fetching facility: ', err.response.data.error);
-          }
-        }
         fetchFacility();
         fetchTimeslots();
         // eslint-disable-next-line
       }, [])
-  
+
       useEffect(() => {
         fetchTimeslots();
         // eslint-disable-next-line
       }, [selectedDate])
-      
+
       useEffect(() => {
-          const disableScrolling = (modalOpen: boolean) => {
-            const html = document.querySelector('html');
-            if (html) {
-              html.style.overflow = modalOpen ? 'hidden' : 'auto';
-            }
-          }
-    
-          disableScrolling(modalOpen);
-      }, [modalOpen])
+        console.log(bookings);
+      }, [bookings])
+      
       
       const handleDateChange = (date: Date) => {
         setSelectedDate(date);
@@ -87,49 +82,73 @@ const UpdateBookingSection = ({ facility_id } : any) => {
   
   
       const handleBooking = (timeslot: ITimeslot, isRemove : boolean) => {
-      //   export interface ITimeslot {
-      //     id: number;
-      //     date: string;
-      //     time: string;
-      //     facilityName: string;
-      //     isBooked: boolean;
-      // }
-      
-        // export interface IBookedTimeSlot {
-        //   id: number;
-        //   facility: string;
-        //   date: Date;
-        //   time: string
-        // }
         setErrorMessage('');
-  
         if (isRemove) {
           setBookings(bookings!.filter(booking => booking.id !== timeslot.id))
         } 
         else {
-
-          const { id, facilityName, date, time } = timeslot;
-          const newBookings = [...bookings, {
-            id,
-            facilityName,
-            date,
-            time
-          }];
-
-          setBookings(newBookings)
+          setBookings(createBooking(timeslot, bookings))
         }
-  
+      }
+
+      const createBooking = (timeslot: ITimeslot, bookings:IBookedTimeSlot[]) => {
+        const { id, facilityName, date, time } = timeslot;
+        return [...bookings, {
+          id,
+          facilityName,
+          date,
+          time,
+          timeslot
+        }];
       }
   
       const handleUpdateButton = (e: React.MouseEvent<HTMLButtonElement>) => {
         setErrorMessage('');
-  
-        if (!bookings.length) {
-          setErrorMessage('Please select one or more timeslots');
-          return;
+
+        async function updateBooking() {
+          try {
+            const timeslot_ids = bookings.map((booking : IBookedTimeSlot) => booking.timeslot.id);
+            console.log({timeslot_ids});
+            const response = await axios.post('http://localhost:3001/bookings/update', {
+              booking_id,
+              timeslots: timeslot_ids
+            });
+
+            handleModalOpen();
+            navigate('/bookings');
+            console.log('Updating booking: ', response.data);
+          } catch (err: any) {
+            console.log('Failed to update booking, ', err.reponse ? err.response.data.error : err);
+          }
         }
+
+        updateBooking();
       }
-  
+
+      const handleDeleteButton = () => {
+        setErrorMessage('');
+
+        async function deleteBooking() {
+          try {
+            const response = await axios.post('http://localhost:3001/bookings/update', {
+              booking_id,
+              timeslots: []
+            });
+            handleModalOpen();
+            navigate('/bookings');
+            console.log('Deleted booking: ', response.data);
+          } catch (err: any) {
+            console.log('Failed to update booking, ', err.reponse ? err.response.data.error : err);
+          }
+        }
+
+        deleteBooking();
+      }
+
+      const handleCancelButton = () => {
+        handleModalOpen();
+      }
+
       const enabledDates = () => {
         return dates.map((date: string) => new Date(date));
       };
@@ -165,9 +184,8 @@ const UpdateBookingSection = ({ facility_id } : any) => {
           <div className={styles.errorMessage}>
               <span>{errorMessage}</span>
           </div>
-          
         }
-
+    <hr></hr>
         {
           user ? 
           bookedTimeslots.length === timeslots.length ?
@@ -175,8 +193,13 @@ const UpdateBookingSection = ({ facility_id } : any) => {
             <Button buttonStyle={buttonStyle.fill}>Not Available</Button>
             </div>
           :
-            <div className={styles.bookButton}>
-            <Button onClick={handleUpdateButton} buttonStyle={buttonStyle.fill}>Update booking</Button>
+            <div className={styles.buttonSection}>
+                 <Button onClick={handleUpdateButton} buttonStyle={buttonStyle.fill}>Update booking</Button>
+                 <div className={styles.deleteButton}>
+                  <Button onClick={handleDeleteButton} buttonStyle={buttonStyle.delete}>Delete booking</Button>
+                 </div>
+
+                 <Button onClick={handleCancelButton} buttonStyle={buttonStyle.stroke}>Cancel</Button>
             </div>
           :
           <div className={styles.loginMessage}>
