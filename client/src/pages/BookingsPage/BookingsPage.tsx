@@ -32,8 +32,8 @@ const BookingsPage = () => {
         <NavBar />
         <div className={styles.main}>
             <h2 className={styles.textHeader}>My bookings</h2>
-
-            <div className={styles.bookings}>
+        </div>  
+        <div className={styles.bookings}>
                 {
                     bookings &&
                     bookings.map((booking: any) => 
@@ -44,8 +44,7 @@ const BookingsPage = () => {
                     )
                 }
                 
-            </div>
-        </div>  
+        </div>
     </>
 
   )

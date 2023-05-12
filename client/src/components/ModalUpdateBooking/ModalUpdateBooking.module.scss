@@ -1,0 +1,33 @@
+.main {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 2;
+
+    .skim {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 0;
+    }
+
+    .container {
+        width: 80%;
+        max-width: 50rem;
+        background-color: white;
+        z-index: 1;
+        padding: 1.6rem;
+        margin: auto;
+
+        h2 {
+            text-align: center;
+            font-size: 2.0rem;
+            margin: 0;
+        }
+    }
+}

@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { addBookingInDB, updateBookingInDB, getBookingFromDB, deleteBookingInDB } from "./bookings.model";
+import { 
+    addBookingInDB, 
+    updateBookingInDB, 
+    getBookingFromDB, 
+    deleteBookingInDB,
+    getTimeslotsByBookingIDFromDB
+} from "./bookings.model";
 
 export async function addBooking(req : Request, res: Response) {
     const { user_id, timeslots } = req.body;
@@ -59,6 +65,22 @@ export async function cancelBooking(req : Request, res: Response) {
         })
     } catch (err : any) {
         console.log('Error retrieving booking: ', err);
+        res.status(400).json({
+            error: err.toString()
+        })
+    }
+}
+
+export async function getTimeslotsByBookingID(req: Request, res: Response) {
+    const { booking_id } = req.params;
+    try {
+        const timeslots = await getTimeslotsByBookingIDFromDB(parseInt(booking_id, 10));
+        console.log('Successfully retrieved timeslots by booking id');
+        res.status(200).json({
+            timeslots
+        })
+    } catch (err : any) {
+        console.log('Error retrieving timeslots by booking id: ', err);
         res.status(400).json({
             error: err.toString()
         })

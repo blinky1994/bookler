@@ -9,12 +9,13 @@ import { ITimeslot, IBooking, IBookingData } from "../interfaces/interfaces";
 
 export function formatBookings(bookings: IBookingData[]) : IBooking[] {
     return bookings.map((booking : IBookingData) => {
-        const { id, facilityName, timeslots } = booking;
+        const { id, facility_id, facilityName, timeslots } = booking;
 
         const formattedTimeslots = formatTimeData(timeslots, facilityName);
         
         return {
             id,
+            facility_id,
             facilityName,
             date: getDateString(timeslots[0].start_time),
             timeslots: formattedTimeslots

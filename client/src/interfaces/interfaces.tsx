@@ -1,5 +1,6 @@
 export interface IBookingData {
     id: number;
+    facility_id: number;
     facilityName: string;
     timeslots: ITimeslotData[]
 }
@@ -19,6 +20,7 @@ export interface IBookedTimeSlot {
 
 export interface IBooking {
     id: number;
+    facility_id: number;
     facilityName: string;
     date: string;
     timeslots: ITimeslot[];

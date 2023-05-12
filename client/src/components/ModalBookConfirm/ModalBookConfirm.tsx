@@ -105,7 +105,6 @@ const BookConfirmPageTwo = ({handleModalOpen, bookings, user} : IModalConfirmPag
 const ModalBookConfirm = ({handleModalOpen, bookings, user} : IModalConfirmProps) => {
     const [currentPage, setCurrentPage]  = useState<1|2>(1);
   return (
-    <>
         <div className={styles.main}>
             <div className={styles.container}>
                 {
@@ -129,8 +128,6 @@ const ModalBookConfirm = ({handleModalOpen, bookings, user} : IModalConfirmProps
             </div>
             <div className={styles.skim}></div>
         </div>
-    </>
-
   )
 }
 

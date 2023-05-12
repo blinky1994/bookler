@@ -1,16 +1,16 @@
-import styles from './BookingSection.module.scss'
+import styles from './UpdateBookingSection.module.scss'
 import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../../context/user.context'
-import { IFacility, ITimeslot, IBookedTimeSlot } from '../../interfaces/interfaces'
+import { UserContext } from '../../../context/user.context'
+import { IFacility, ITimeslot, IBookedTimeSlot } from '../../../interfaces/interfaces'
 import axios from 'axios'
-import Button, { buttonStyle } from '../../components/Button/Button'
-import DatePicker from '../../components/DatePicker/DatePicker'
-import { formatTimeData, getDatesInISOString, filterTimeslotsByDate } from '../../utils/formatDateTime'
-import Timeslots from '../../components/Timeslots/Timeslots'
-import ModalBookConfirm from '../../components/ModalBookConfirm/ModalBookConfirm'
+import Button, { buttonStyle } from '../../../components/Button/Button'
+import DatePicker from '../../../components/DatePicker/DatePicker'
+import { formatTimeData, getDatesInISOString, filterTimeslotsByDate } from '../../../utils/formatDateTime'
+import Timeslots from '../../../components/Timeslots/Timeslots'
+import ModalBookConfirm from '../../../components/ModalBookConfirm/ModalBookConfirm'
 
-const BookingSection = ({ facility_id } : any) => {
+const UpdateBookingSection = ({ facility_id } : any) => {
     const [facility, setFacility] = useState<IFacility>();
     const [timeslots, setTimeslots] = useState<ITimeslot[]>([]);
     const [bookedTimeslots, setBookedTimeslots] = useState<ITimeslot[]>([]);
@@ -121,19 +121,13 @@ const BookingSection = ({ facility_id } : any) => {
   
       }
   
-      const handleBookButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+      const handleUpdateButton = (e: React.MouseEvent<HTMLButtonElement>) => {
         setErrorMessage('');
   
         if (!bookings.length) {
           setErrorMessage('Please select one or more timeslots');
           return;
         }
-  
-        handleModalOpen();
-      }
-  
-      const handleModalOpen = () => {
-        setModalOpen(!modalOpen);
       }
   
       const enabledDates = () => {
@@ -182,7 +176,7 @@ const BookingSection = ({ facility_id } : any) => {
             </div>
           :
             <div className={styles.bookButton}>
-            <Button onClick={handleBookButton} buttonStyle={buttonStyle.fill}>Book</Button>
+            <Button onClick={handleUpdateButton} buttonStyle={buttonStyle.fill}>Update booking</Button>
             </div>
           :
           <div className={styles.loginMessage}>
@@ -195,11 +189,8 @@ const BookingSection = ({ facility_id } : any) => {
 
         }
     </div>
-    {
-        modalOpen && <ModalBookConfirm handleModalOpen={handleModalOpen} bookings={bookings} user={user} />
-    }
     </>
   )
 }
 
-export default BookingSection
+export default UpdateBookingSection

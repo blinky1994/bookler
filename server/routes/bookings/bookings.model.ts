@@ -167,10 +167,32 @@ export async function getBookingFromDB(user_id: number) {
 
         bookings.push({
             id: booking_id,
+            facility_id,
             facilityName: name,
             timeslots: timeslots_timings
         })
     }
 
     return bookings;
+}
+
+export async function getTimeslotsByBookingIDFromDB(booking_id : number) {
+    const timeslot_ids = (await db.query(`
+        SELECT timeslot_id FROM bookings_timeslots WHERE booking_id = '${booking_id}';
+    `))[0];
+
+    const timeslots = [];
+
+    for (const timeslotObj of timeslot_ids) {
+        const { timeslot_id } = timeslotObj;
+
+        const timeslotsData = (await db.query(`
+            SELECT id, start_time, end_time, facility_id, slots FROM timeslots 
+            WHERE id = '${timeslot_id}';
+        `))[0][0];
+
+        timeslots.push(timeslotsData);
+    }
+
+    return timeslots;
 }

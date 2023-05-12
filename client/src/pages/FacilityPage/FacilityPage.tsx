@@ -49,7 +49,7 @@ const FacilityPage = () => {
         :
         <h1>No facility found</h1>
     }
-    <BookingSection />
+    <BookingSection facility_id={facility_id} />
     </>
    
   )

@@ -1,0 +1,60 @@
+.main {
+    margin: 1.2rem;
+
+    .logInLink {
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .loginMessage {
+        font-size: 1.6rem;
+        text-align: center;
+        margin: 3.2rem 0;
+    }
+
+    h3 {
+        font-size: 1.6rem;
+        font-weight: 500;
+    }
+
+    .button {
+        display: flex;
+        justify-content: center;
+        margin: 3.2rem 0;
+    }
+
+    .bookButton {
+        @extend .button;
+        opacity: 1;
+    }
+
+    .bookButtonDisabled {
+        @extend .button;
+        opacity: 0.5;
+    }
+
+    .dateHeader {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .timeslotsHeader {
+        display: flex;
+        // align-items: center;
+        gap: 1rem;
+    }
+
+    .datePicker {
+        width: 8rem;
+        padding: 0.8rem 0.8rem;
+        text-align: center;
+    }
+
+    .errorMessage {
+        text-align: center;
+        color: red;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+    }
+}
