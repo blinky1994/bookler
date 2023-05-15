@@ -37,6 +37,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
               const formattedTimeSlots = formatTimeData(filteredTimeSlots, facility!.name)
               setTimeslots(formattedTimeSlots);
               setBookedTimeslots(formattedTimeSlots.filter(timeslot => timeslot.slots === 0));
+              updateCurrentBookings(formattedTimeSlots);
             } 
           } catch (err: any) {
             console.log('Error fetching timeslots: ', err.response ? err.response.data.error : err);
@@ -52,7 +53,18 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
           console.log('Error fetching facility: ', err.response ? err.response.data.error : err);
         }
       }
-  
+
+      function updateCurrentBookings(formattedTimeSlots: any) {
+        let newBookings = [...bookings];
+         for (const timeslot of formattedTimeSlots) {
+          if (timeslot.selected) {
+            newBookings = createBooking(timeslot, newBookings);
+          }
+         }
+
+         setBookings(newBookings);
+      } 
+
       useEffect(() => {
         if (dates[0] && !selectedDate) {
           setSelectedDate(new Date(dates[0]));
@@ -71,9 +83,9 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
         // eslint-disable-next-line
       }, [selectedDate])
 
-      useEffect(() => {
-        console.log(bookings);
-      }, [bookings])
+      // useEffect(() => {
+      //   console.log(bookings);
+      // }, [bookings])
       
       
       const handleDateChange = (date: Date) => {
@@ -105,10 +117,15 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
       const handleUpdateButton = (e: React.MouseEvent<HTMLButtonElement>) => {
         setErrorMessage('');
 
+        if (!bookings.length) {
+          setErrorMessage('Please select one or more timeslots');
+          return;
+        }
+
         async function updateBooking() {
           try {
+            
             const timeslot_ids = bookings.map((booking : IBookedTimeSlot) => booking.timeslot.id);
-            console.log({timeslot_ids});
             const response = await axios.post('http://localhost:3001/bookings/update', {
               booking_id,
               timeslots: timeslot_ids

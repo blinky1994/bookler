@@ -18,7 +18,6 @@ interface ITimeslotProps {
 const Timeslot = ({timeslot, handleBooking, selected}: ITimeslotProps) => {
     useEffect(() => {
         if (selected) {
-            handleBooking(timeslot, false);
             setIsSelected(selected);
         }
     }, [])
