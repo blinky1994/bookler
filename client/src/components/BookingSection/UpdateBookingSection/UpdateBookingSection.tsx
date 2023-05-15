@@ -132,7 +132,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
             });
 
             handleModalOpen();
-            navigate('/bookings');
+            navigate(0);
             console.log('Updating booking: ', response.data);
           } catch (err: any) {
             console.log('Failed to update booking, ', err.reponse ? err.response.data.error : err);
@@ -152,7 +152,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
               timeslots: []
             });
             handleModalOpen();
-            navigate('/bookings');
+            navigate(0);
             console.log('Deleted booking: ', response.data);
           } catch (err: any) {
             console.log('Failed to update booking, ', err.reponse ? err.response.data.error : err);
@@ -193,7 +193,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
           <h3>Time slots</h3>
             {
               timeslots &&
-              <Timeslots handleBooking={handleBooking} timeslots={timeslots}/>
+              <Timeslots isUpdatePage={true} handleBooking={handleBooking} timeslots={timeslots}/>
             }
         </div>
         {

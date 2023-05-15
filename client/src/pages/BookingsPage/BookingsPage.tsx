@@ -6,11 +6,13 @@ import { IBooking } from '../../interfaces/interfaces'
 import { formatBookings } from '../../utils/formatDateTime'
 import axios from 'axios'
 import { UserContext } from '../../context/user.context'
+import { useNavigate } from 'react-router-dom'
 
 const BookingsPage = () => {
     const [bookings, setBookings] = useState<IBooking[]>([]);
     const userContext = useContext(UserContext);
     const user = userContext!.user;
+    const navigate = useNavigate();
 
     async function fetchBookings() {
         try {
@@ -24,9 +26,14 @@ const BookingsPage = () => {
       }
 
     useEffect(() => {
+      console.log('called')
         fetchBookings()
     }, [])
     
+    const handleViewFacilities = () => {
+      navigate('/');
+    }
+
   return (
     <>
         <NavBar />
@@ -35,7 +42,7 @@ const BookingsPage = () => {
         </div>  
         <div className={styles.bookings}>
                 {
-                    bookings &&
+                    bookings.length > 0 ?
                     bookings.map((booking: any) => 
                         <MyBookingCard 
                             key={booking.facilityName + booking.id}
@@ -43,6 +50,8 @@ const BookingsPage = () => {
                             fetchBookings={fetchBookings}
                         />
                     )
+                    :
+                    <h2 className={styles.noBookingsMessage}>You have no bookings. Click <span onClick={handleViewFacilities}>here</span> to view facilities</h2>
                 }
                 
         </div>

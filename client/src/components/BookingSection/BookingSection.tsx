@@ -67,6 +67,7 @@ const BookingSection = ({ facility_id } : any) => {
   
       useEffect(() => {
         fetchTimeslots();
+        setBookings([]);
         // eslint-disable-next-line
       }, [selectedDate])
       
@@ -85,6 +86,9 @@ const BookingSection = ({ facility_id } : any) => {
         setSelectedDate(date);
       }
   
+      // useEffect(() => {
+      //   console.log(bookings);
+      // }, [bookings])
   
       const handleBooking = (timeslot: ITimeslot, isRemove : boolean) => {
       //   export interface ITimeslot {
@@ -163,7 +167,7 @@ const BookingSection = ({ facility_id } : any) => {
           <h3>Time slots</h3>
             {
               timeslots &&
-              <Timeslots handleBooking={handleBooking} timeslots={timeslots}/>
+              <Timeslots isUpdatePage={false} handleBooking={handleBooking} timeslots={timeslots}/>
             }
         </div>
         {
@@ -196,7 +200,11 @@ const BookingSection = ({ facility_id } : any) => {
         }
     </div>
     {
-        modalOpen && <ModalBookConfirm handleModalOpen={handleModalOpen} bookings={bookings} user={user} />
+        modalOpen && 
+        <ModalBookConfirm 
+        handleModalOpen={handleModalOpen} 
+        bookings={bookings} 
+        user={user} />
     }
     </>
   )

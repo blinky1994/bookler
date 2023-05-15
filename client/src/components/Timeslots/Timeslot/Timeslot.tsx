@@ -6,6 +6,7 @@ interface ITimeslotProps {
     timeslot: ITimeslot
     handleBooking: (timeslot: ITimeslot, isRemove: boolean) => void;
     selected: boolean;
+    isUpdatePage: boolean;
 }
 
 // export interface ITimeslot {
@@ -15,9 +16,9 @@ interface ITimeslotProps {
 //     isBooked: boolean;
 // }
 
-const Timeslot = ({timeslot, handleBooking, selected}: ITimeslotProps) => {
+const Timeslot = ({timeslot, handleBooking, selected, isUpdatePage}: ITimeslotProps) => {
     useEffect(() => {
-        if (selected) {
+        if (selected && isUpdatePage) {
             setIsSelected(selected);
         }
     }, [])
@@ -27,7 +28,7 @@ const Timeslot = ({timeslot, handleBooking, selected}: ITimeslotProps) => {
     const { slots, time } = timeslot;
 
     const handleClick = () => {
-        if (slots === 0) return;
+        if (slots === 0 && !isUpdatePage) return;
         
         handleBooking(timeslot, isSelected);
         
@@ -36,7 +37,7 @@ const Timeslot = ({timeslot, handleBooking, selected}: ITimeslotProps) => {
 
   return (
         <div onClick={handleClick} 
-        className={slots === 0 ? styles.booked : 
+        className={(slots === 0 && !isUpdatePage) ? styles.booked : 
             isSelected? styles.selected : styles.default 
         }>
             <span>{time}</span>

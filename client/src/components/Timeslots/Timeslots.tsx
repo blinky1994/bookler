@@ -5,9 +5,10 @@ import { ITimeslot } from "../../interfaces/interfaces"
 interface ITimeslotsProp {
     timeslots: ITimeslot[];
     handleBooking: (timeslot: ITimeslot, isRemove: boolean) => void;
+    isUpdatePage: boolean;
 }
 
-const Timeslots = ({ timeslots, handleBooking } : ITimeslotsProp) => {
+const Timeslots = ({ timeslots, handleBooking, isUpdatePage } : ITimeslotsProp) => {
   return (
     <div className={styles.main}>
         {
@@ -17,6 +18,7 @@ const Timeslots = ({ timeslots, handleBooking } : ITimeslotsProp) => {
                 timeslot={timeslot}
                 handleBooking={handleBooking}
                 selected={timeslot.selected}
+                isUpdatePage={isUpdatePage}
             />
             )
         }
