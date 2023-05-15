@@ -131,9 +131,10 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
           try {
             
             const timeslot_ids = bookings.map((booking : IBookedTimeSlot) => booking.timeslot.id);
+            const timeslot_ids_set = new Set(timeslot_ids);
             const response = await axios.post('http://localhost:3001/bookings/update', {
               booking_id,
-              timeslots: timeslot_ids
+              timeslots: Array.from(timeslot_ids_set)
             });
 
             handleModalOpen();

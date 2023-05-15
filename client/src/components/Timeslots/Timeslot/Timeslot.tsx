@@ -31,7 +31,6 @@ const Timeslot = ({timeslot, handleBooking, selected, isUpdatePage}: ITimeslotPr
         if (slots === 0 && !isUpdatePage) return;
         
         handleBooking(timeslot, isSelected);
-        
         setIsSelected(!isSelected);
     }
 
