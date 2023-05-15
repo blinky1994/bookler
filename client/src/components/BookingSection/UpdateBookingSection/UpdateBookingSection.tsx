@@ -14,6 +14,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
     const [facility, setFacility] = useState<IFacility>();
     const [timeslots, setTimeslots] = useState<ITimeslot[]>([]);
     const [bookedTimeslots, setBookedTimeslots] = useState<ITimeslot[]>([]);
+    const [hasUpdatedBookings, setHasUpdatedBookings] = useState<boolean>(false);
 
     const [selectedDate, setSelectedDate] = useState<Date>();
     const [dates, setDates] = useState<string[]>([]);
@@ -37,7 +38,11 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
               const formattedTimeSlots = formatTimeData(filteredTimeSlots, facility!.name)
               setTimeslots(formattedTimeSlots);
               setBookedTimeslots(formattedTimeSlots.filter(timeslot => timeslot.slots === 0));
-              updateCurrentBookings(formattedTimeSlots);
+
+              if (!hasUpdatedBookings) {
+                updateCurrentBookings(formatTimeData(timeslots, facility!.name));
+                setHasUpdatedBookings(true);
+              }
             } 
           } catch (err: any) {
             console.log('Error fetching timeslots: ', err.response ? err.response.data.error : err);
@@ -83,9 +88,9 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
         // eslint-disable-next-line
       }, [selectedDate])
 
-      // useEffect(() => {
-      //   console.log(bookings);
-      // }, [bookings])
+      useEffect(() => {
+        console.log(bookings);
+      }, [bookings])
       
       
       const handleDateChange = (date: Date) => {

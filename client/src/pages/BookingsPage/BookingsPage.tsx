@@ -26,7 +26,6 @@ const BookingsPage = () => {
       }
 
     useEffect(() => {
-      console.log('called')
         fetchBookings()
     }, [])
     

@@ -9,13 +9,38 @@ import ModalUpdateBooking from '../ModalUpdateBooking/ModalUpdateBooking';
 //     timeslots: ITimeslot[];
 // }
 
+
+interface IMapTimeSlots {
+    [key: string]  : string[];
+}
+
 const MyBookingCard = ({ booking } : any) => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [dates, setDates] = useState<string[]>([]);
+    const [dateTimeMap, setDateTimeMap] = useState<IMapTimeSlots>();
     const { id, facilityName, date, timeslots } = booking;
 
     const handleModalOpen = () => {
         setModalOpen(!modalOpen);
     }
+    const mapTimeslots = (timeslots: ITimeslot[]) : IMapTimeSlots => {
+        let map : IMapTimeSlots = {};
+        
+        for (const timeslot of timeslots) {
+            map[timeslot.date] = [...(map[timeslot.date] || []), timeslot.time]
+        }
+
+        const mapArray = Object.keys(map);
+
+        return map;
+    }
+
+    useEffect(() => {
+      const map = mapTimeslots(timeslots);
+      setDateTimeMap(map);
+      setDates(Object.keys(map));
+    }, [])
+    
     
   return (
     <>
@@ -27,16 +52,25 @@ const MyBookingCard = ({ booking } : any) => {
             <div className={styles.topSection}>
                 <h3>{facilityName}
                 </h3>
-                <span>{date}</span>
             </div>
             <div className={styles.bottomSection}>
-                <div className={styles.timeslots}>
-                    {
-                        timeslots.map((timeslot: ITimeslot, idx: number) => 
-                            <span key={timeslot.id + idx + timeslot.start_time}>{timeslot.time}</span>
-                        )
-                    }
-                </div>
+                {
+                    dates.length && dateTimeMap &&
+                    dates.map((date: string, idx: number) => 
+                        <div className={styles.dateTimeSection} key={date + idx}>
+                            <span className={styles.date}>{date}:</span>
+                            <div className={styles.timeslots}>
+                            {
+                                dateTimeMap[date].map((dateTime, idx) =>
+                                    <span key={date + dateTime + idx} className={styles.time}>
+                                        {dateTime}
+                                    </span>    
+                                )
+                            }
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
         {
