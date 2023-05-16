@@ -37,7 +37,7 @@ const FacilitiesSection = () => {
             <h2>&#707;</h2>
             {
                 facilities.length ? 
-                <h2>{facilities[0].category}</h2> :
+                <h2 className={styles.facilityText}>{facilities[0].category}</h2> :
                 <h2>No available facilities</h2>
             }
         </div>

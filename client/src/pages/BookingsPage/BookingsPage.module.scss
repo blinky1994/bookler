@@ -23,3 +23,37 @@
         }
     }
 }
+
+@media (min-width: 700px) {
+    .main {
+        max-width: 100rem;
+        margin: auto;
+        margin-top: 4rem;
+
+        h2 {
+            font-size: 1.6rem;
+            text-transform: uppercase;
+            color: rgba(0, 0, 0, 0.65);
+        }
+    }
+
+    .bookings {
+        gap: 4rem;
+        
+    .noBookingsMessage {
+        font-weight: normal;
+        margin: 0 auto;
+        margin: auto;
+        margin-top: 4rem;
+
+        span {
+            text-decoration: underline;
+
+            &:hover {
+                cursor: pointer;
+                color: rgb(126, 126, 126);
+            }
+        }
+    }
+    }
+}

@@ -1,5 +1,5 @@
 import styles from './FacilityCard.module.scss'
-import { IFacility } from '../../../context/categories.context';
+import { IFacility } from '../../../interfaces/interfaces';
 import { useNavigate } from 'react-router-dom'
 
 type FacilityCardProps = IFacility;

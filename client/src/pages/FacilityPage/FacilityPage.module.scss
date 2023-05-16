@@ -32,3 +32,39 @@
         padding: 0 2rem;
     }
 }
+
+@media (min-width: 700px) {
+    .main {
+        max-width: 80rem;
+        margin: auto;
+        .titleSection {
+
+
+            .leftArrowIcon {
+                left: 40%;
+                transition: all 0.2s ease-out;
+
+                &:hover {
+                    cursor: pointer;
+                    transform: scale(1.2);
+                }
+            }
+            h1 {
+    
+            }
+        }
+    
+        hr {
+    
+        }
+    
+        .facilityImage {
+            width: 100%;
+        }
+    
+        .facilityDescription {
+    
+        }
+     }
+
+}

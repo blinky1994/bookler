@@ -12,6 +12,7 @@ const BookingsPage = () => {
     const [bookings, setBookings] = useState<IBooking[]>([]);
     const userContext = useContext(UserContext);
     const user = userContext!.user;
+    const setUser = userContext!.setUser;
     const navigate = useNavigate();
 
     async function fetchBookings() {
@@ -25,9 +26,24 @@ const BookingsPage = () => {
           }
       }
 
+      const fetchUserFromStorage = () => {
+        if (!user) {
+          const userString = localStorage.getItem('user');
+          const userObj = userString ? JSON.parse(userString) : null;
+          setUser(userObj);
+        }
+      }
+
+
+
     useEffect(() => {
-        fetchBookings()
+      fetchUserFromStorage();
     }, [])
+
+    useEffect(() => {
+      fetchBookings();
+    }, [user])
+    
     
     const handleViewFacilities = () => {
       navigate('/');

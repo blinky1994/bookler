@@ -15,6 +15,12 @@
     background-color: #000000;
     color: white;
     @extend .shared;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #555555;
+        border-color: #555555;
+    }
 }
 
 .delete {
@@ -22,10 +28,22 @@
     border-color: #c72323;
     color: white;
     @extend .shared;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #d16161;
+        border-color: #d16161;
+        content: "weew";
+    }
 }
 
 .stroke {
     color: blue($color: #000000);
     background-color: white;
     @extend .shared;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #dfdfdf;
+    }
 }

@@ -8,6 +8,11 @@
     display: flex;
     flex-direction: column;
     text-align: center;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #dfdfdf;
+    }
 }
 
 .default {
@@ -31,6 +36,11 @@
         margin: 1rem 0;
     }
      @extend .spanFontSize;
+
+     &:hover {
+        cursor: pointer;
+        background-color: rgb(165, 255, 143);
+    }
 }
 
 .booked {

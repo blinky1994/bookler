@@ -1,4 +1,5 @@
 .menuOpen {
+    display: block;
     position: fixed;
     left: 0;
     z-index: 2;
@@ -84,7 +85,7 @@
     position: fixed;
     height: 100%;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
     transition: all 0.25s ease-out;
     opacity: 1;
     display: block;
@@ -94,4 +95,8 @@
     display: none;
 }
 
-
+@media (min-width: 700px) {
+    .main {
+        display: none;
+    }
+}

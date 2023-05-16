@@ -6,6 +6,8 @@ import FacilityPage from "./pages/FacilityPage/FacilityPage";
 import { UserContextProvider } from "./context/user.context";
 import { MenuContextProvider } from "./context/menu.context";
 import BookingsPage from "./pages/BookingsPage/BookingsPage";
+import SideMenuDesktop from "./components/SideMenu/SideMenuDesktop/SideMenuDesktop";
+import styles from './App.module.scss';
 
 import {
   BrowserRouter,
@@ -18,15 +20,19 @@ function App() {
     <UserContextProvider>
       <MenuContextProvider>
         <BrowserRouter>
-          <div>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/facilities/:category_id" element={<FacilitiesPage />} />
-            <Route path="/facilities/facility/:facility_id" element={<FacilityPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/bookings" element={<BookingsPage />} />
-          </Routes>
+          <div className={styles.desktopLayout}>
+            <SideMenuDesktop />
+          <div className={styles.body}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/facilities/:category_id" element={<FacilitiesPage />} />
+              <Route path="/facilities/facility/:facility_id" element={<FacilityPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/bookings" element={<BookingsPage />} />
+            </Routes>
+          </div>
+
           </div>
         </BrowserRouter>
       </MenuContextProvider>

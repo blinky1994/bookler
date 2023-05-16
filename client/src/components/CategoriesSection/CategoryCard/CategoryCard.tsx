@@ -1,5 +1,5 @@
 import styles from './CategoryCard.module.scss'
-import { ICategory } from '../../../context/categories.context'
+import { ICategory } from '../../../interfaces/interfaces';
 import { useNavigate } from 'react-router-dom'
 
 type CategoryCardProps = ICategory;

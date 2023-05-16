@@ -15,12 +15,7 @@ const HomePage = () => {
       <CategoriesSection />
       <div className={styles.message}>
         {
-          user ? 
-          <span>
-            Welcome, 
-              <span className={styles.logInLink}> {user.email}</span>
-          </span>
-          :
+          !user &&
           <span>
             Click
             <Link to={'/login'}>

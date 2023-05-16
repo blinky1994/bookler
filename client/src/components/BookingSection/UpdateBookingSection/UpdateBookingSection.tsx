@@ -25,8 +25,13 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
 
     const userContext = useContext(UserContext);
     const user = userContext!.user;
+    const setUser = userContext!.setUser;
 
     const navigate = useNavigate();
+
+    const saveUserToStorage = () => {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
 
     async function fetchTimeslots() {
         try {
@@ -138,6 +143,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
             });
 
             handleModalOpen();
+            saveUserToStorage();
             navigate(0);
             console.log('Updating booking: ', response.data);
           } catch (err: any) {
@@ -158,6 +164,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
               timeslots: []
             });
             handleModalOpen();
+            saveUserToStorage();
             navigate(0);
             console.log('Deleted booking: ', response.data);
           } catch (err: any) {

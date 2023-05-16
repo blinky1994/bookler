@@ -18,10 +18,7 @@ interface IUserContextProviderProps {
   }
 
 export const UserContextProvider : React.FC<IUserContextProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<IUserAccount | null>({
-        id: '74',
-        email: "ivanchenyifan@hotmail.com"
-    });
+        const [user, setUser] = useState<IUserAccount | null>(null);
     
     return (
         <UserContext.Provider value={{user, setUser}}>{children}</UserContext.Provider>

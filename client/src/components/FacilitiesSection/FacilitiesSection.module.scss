@@ -1,10 +1,13 @@
 .main {
     padding: 1.6rem;
+    max-width: 140rem;
+    margin: auto;
 
     h2 {
         font-size: 1.6rem;
         text-transform: uppercase;
         color: rgba(0, 0, 0, 0.65);
+        
     }
 
     .breadcrumb {
@@ -14,7 +17,18 @@
 
         .allFacilitiesText {
             font-weight: 500;
+            &:hover {
+                cursor: pointer;
+            }
         }
+
+        .facilityText {
+            font-size: 1.6rem;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        
     }
 
     .cardsSection {

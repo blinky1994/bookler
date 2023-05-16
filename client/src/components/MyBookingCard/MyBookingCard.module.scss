@@ -60,3 +60,20 @@
         }
     }
 }
+
+@media (min-width: 700px) {
+    .main {
+        &:hover {
+            cursor: pointer;
+            background-color: #dfdfdf;
+        }
+    }
+}
+
+@media (min-width: 1290px) {
+    .main {
+        width: 100%;
+        max-width: 100rem;
+        margin: auto;
+    }
+}
