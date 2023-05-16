@@ -1,0 +1,3 @@
+- When all slots are booked on booking update page, can't update booking since button is set to not-availible
+
+- No sign up button at login 
