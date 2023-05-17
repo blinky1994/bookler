@@ -9,7 +9,7 @@ import { formatTimeData, getDateString, filterTimeslotsByDate } from '../../../u
 import Timeslots from '../../../components/Timeslots/Timeslots'
 import { useNavigate } from 'react-router-dom'
 
-const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any) => {
+const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen, setConfirmedBookings, setCurrentPage } : any) => {
     const [facility, setFacility] = useState<IFacility>();
     const [timeslots, setTimeslots] = useState<ITimeslot[]>([]);
     const [bookedTimeslots, setBookedTimeslots] = useState<ITimeslot[]>([]);
@@ -112,45 +112,13 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
           return;
         }
 
-        async function updateBooking() {
-          try {
-            
-            const timeslot_ids = bookings.map((booking : IBookedTimeSlot) => booking.timeslot.id);
-            const timeslot_ids_set = new Set(timeslot_ids);
-            const response = await axios.post('http://localhost:3001/bookings/update', {
-              booking_id,
-              timeslots: Array.from(timeslot_ids_set)
-            });
-
-            handleModalOpen();
-            navigate(0);
-            console.log('Updating booking: ', response.data);
-          } catch (err: any) {
-            console.log('Failed to update booking, ', err.reponse ? err.response.data.error : err);
-          }
-        }
-
-        updateBooking();
+        setConfirmedBookings(bookings);
+        setCurrentPage('updateConfirm');    
       }
 
       const handleDeleteButton = () => {
         setErrorMessage('');
-
-        async function deleteBooking() {
-          try {
-            const response = await axios.post('http://localhost:3001/bookings/update', {
-              booking_id,
-              timeslots: []
-            });
-            handleModalOpen();
-            navigate(0);
-            console.log('Deleted booking: ', response.data);
-          } catch (err: any) {
-            console.log('Failed to update booking, ', err.reponse ? err.response.data.error : err);
-          }
-        }
-
-        deleteBooking();
+        setCurrentPage('deleteConfirm');
       }
 
       const handleCancelButton = () => {

@@ -1,3 +1,5 @@
 - When all slots are booked on booking update page, can't update booking since button is set to not-availible
 
 - No sign up button at login 
+
+- If select timeslots on 2023-05-03, my bookings does not show correctly.

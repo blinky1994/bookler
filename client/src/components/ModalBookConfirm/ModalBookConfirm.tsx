@@ -90,8 +90,6 @@ const BookConfirmPageTwo = ({handleModalOpen} : IModalConfirmPageProps) => {
         navigate(0);
     }
 
-
-
     return (
         <div className={styles.pageTwoSection}>
         <div className={styles.headerSection}>

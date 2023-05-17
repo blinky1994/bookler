@@ -30,4 +30,17 @@
             margin: 0;
         }
     }
+
+    .pageThreeSection {
+        .headerSection {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            svg path {
+                width: 24rem;
+            }
+        }
+    }
 }

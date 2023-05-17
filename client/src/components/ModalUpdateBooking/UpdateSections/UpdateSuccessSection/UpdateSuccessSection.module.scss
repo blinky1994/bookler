@@ -1,0 +1,22 @@
+.main {
+
+    .buttonsSection {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.6rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .headerSection {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        svg path {
+            width: 24rem;
+        }
+    }
+}
