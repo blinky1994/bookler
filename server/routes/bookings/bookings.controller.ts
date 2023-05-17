@@ -72,9 +72,12 @@ export async function cancelBooking(req : Request, res: Response) {
 }
 
 export async function getTimeslotsByBookingID(req: Request, res: Response) {
-    const { booking_id } = req.params;
+    const { booking_id, user_id } = req.params;
     try {
-        const timeslots = await getTimeslotsByBookingIDFromDB(parseInt(booking_id, 10));
+        const timeslots = await getTimeslotsByBookingIDFromDB(
+            parseInt(booking_id, 10),
+            parseInt(user_id, 10)
+        );
         console.log('Successfully retrieved timeslots by booking id');
         res.status(200).json({
             timeslots

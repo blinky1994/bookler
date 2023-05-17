@@ -83,7 +83,7 @@ function getTimeString(time: string) {
     return timeString;  
 }
 
-function getDateString(time: string) {
+export function getDateString(time: string) {
     return time.substring(0, 10);
 }
 

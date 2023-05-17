@@ -1,12 +1,11 @@
 import styles from './UpdateBookingSection.module.scss'
-import { useParams, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../../../context/user.context'
-import { IFacility, ITimeslot, IBookedTimeSlot, IBooking } from '../../../interfaces/interfaces'
+import { IFacility, ITimeslot, IBookedTimeSlot } from '../../../interfaces/interfaces'
 import axios from 'axios'
 import Button, { buttonStyle } from '../../../components/Button/Button'
-import DatePicker from '../../../components/DatePicker/DatePicker'
-import { formatTimeData, getDatesInISOString, filterTimeslotsByDate } from '../../../utils/formatDateTime'
+import { formatTimeData, getDateString, filterTimeslotsByDate } from '../../../utils/formatDateTime'
 import Timeslots from '../../../components/Timeslots/Timeslots'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,8 +15,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
     const [bookedTimeslots, setBookedTimeslots] = useState<ITimeslot[]>([]);
     const [hasUpdatedBookings, setHasUpdatedBookings] = useState<boolean>(false);
 
-    const [selectedDate, setSelectedDate] = useState<Date>();
-    const [dates, setDates] = useState<string[]>([]);
+    const [date, setDate] = useState<string>([]);
 
     const [bookings, setBookings] = useState<IBookedTimeSlot[]>([]);
 
@@ -25,22 +23,20 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
 
     const userContext = useContext(UserContext);
     const user = userContext!.user;
-    const setUser = userContext!.setUser;
 
     const navigate = useNavigate();
-
-    const saveUserToStorage = () => {
-      localStorage.setItem('user', JSON.stringify(user));
-    }
 
     async function fetchTimeslots() {
         try {
             const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/${user!.id}/timeslots`);
+
             const { timeslots } = response.data;
-            setDates(getDatesInISOString(timeslots));
-            if (selectedDate && facility) {
-              const filteredTimeSlots = filterTimeslotsByDate(selectedDate, timeslots);
-              const formattedTimeSlots = formatTimeData(filteredTimeSlots, facility!.name)
+            const dateTime = timeslots[0].start_time;
+            setDate(getDateString(dateTime));
+            if (facility) {
+              console.log({dateTime});
+              const filteredTimeSlots = filterTimeslotsByDate(new Date(dateTime), timeslots);
+              const formattedTimeSlots = formatTimeData(filteredTimeSlots, facility!.name);
               setTimeslots(formattedTimeSlots);
               setBookedTimeslots(formattedTimeSlots.filter(timeslot => timeslot.slots === 0));
 
@@ -58,7 +54,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
         try {
           const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}`);
           const { facility } = response.data;
-          setFacility(facility)
+          setFacility(facility);
         } catch (err: any) {
           console.log('Error fetching facility: ', err.response ? err.response.data.error : err);
         }
@@ -75,34 +71,18 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
          setBookings(newBookings);
       } 
 
-      useEffect(() => {
-        if (dates[0] && !selectedDate) {
-          setSelectedDate(new Date(dates[0]));
-        }
-        
-      }, [dates, selectedDate])
   
       useEffect(() => {
         fetchFacility();
-        fetchTimeslots();
         // eslint-disable-next-line
       }, [])
 
-      useEffect(() => {
-        fetchTimeslots();
-        // eslint-disable-next-line
-      }, [selectedDate])
 
-      useEffect(() => {
-        console.log(bookings);
-      }, [bookings])
-      
-      
-      const handleDateChange = (date: Date) => {
-        setSelectedDate(date);
-      }
-  
-  
+        useEffect(() => {
+          fetchTimeslots();
+        // eslint-disable-next-line
+      }, [facility])
+
       const handleBooking = (timeslot: ITimeslot, isRemove : boolean) => {
         setErrorMessage('');
         if (isRemove) {
@@ -143,7 +123,6 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
             });
 
             handleModalOpen();
-            saveUserToStorage();
             navigate(0);
             console.log('Updating booking: ', response.data);
           } catch (err: any) {
@@ -164,7 +143,6 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
               timeslots: []
             });
             handleModalOpen();
-            saveUserToStorage();
             navigate(0);
             console.log('Deleted booking: ', response.data);
           } catch (err: any) {
@@ -179,11 +157,6 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
         handleModalOpen();
       }
 
-      const enabledDates = () => {
-        return dates.map((date: string) => new Date(date));
-      };
-  
-      const datePickerKey = dates.map((date: string) => date.split('')).join(',');
 
   return (
     <>
@@ -191,15 +164,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
     <hr></hr>
         <div className={styles.dateHeader}>
           <h3>Date</h3>
-            {
-            selectedDate && 
-            <DatePicker 
-            key={datePickerKey}
-            className={styles.datePicker}
-            selected={selectedDate} 
-            onChange={handleDateChange} 
-            enabledDates={enabledDates()}/>
-          }
+          <span>{date}</span>
         </div>
         <hr></hr>
         <div className={styles.timeslotsHeader}>
@@ -218,7 +183,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen } : any
     <hr></hr>
         {
           user ? 
-          bookedTimeslots.length === timeslots.length ?
+          (bookedTimeslots.length > 0 && bookedTimeslots.length === timeslots.length) ?
             <div className={styles.bookButtonDisabled}>
             <Button buttonStyle={buttonStyle.fill}>Not Available</Button>
             </div>

@@ -7,6 +7,8 @@ import NavBar from '../../components/NavBar/NavBar'
 import { ReactComponent as IconLeftArrow } from '../../components/Icons/Icon_LeftArrow.svg'
 import { useNavigate } from 'react-router-dom'
 import BookingSection from '../../components/BookingSection/BookingSection'
+import { UserContext } from '../../context/user.context'
+import { useContext} from 'react'
 
 const FacilityPage = () => {
     const [facility, setFacility] = useState<IFacility>();

@@ -26,13 +26,14 @@ const BookingSection = ({ facility_id } : any) => {
 
     const userContext = useContext(UserContext);
     const user = userContext!.user;
+    const setUser = userContext!.setUser;
 
     async function fetchTimeslots() {
         try {
             const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/${user!.id}/timeslots`);
             const { timeslots } = response.data;
             setDates(getDatesInISOString(timeslots));
-            if (selectedDate) {
+            if (facility && selectedDate) {
               const filteredTimeSlots = filterTimeslotsByDate(selectedDate, timeslots);
               const formattedTimeSlots = formatTimeData(filteredTimeSlots, facility!.name)
               setTimeslots(formattedTimeSlots);
@@ -49,24 +50,27 @@ const BookingSection = ({ facility_id } : any) => {
         }
         
       }, [dates, selectedDate])
-  
+
       useEffect(() => {
         async function fetchFacility() {
           try {
             const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}`);
+     
             const { facility } = response.data;
-            setFacility(facility)
+            setFacility(facility);
           } catch (err: any) {
             console.log('Error fetching facility: ', err.response.data.error);
           }
         }
-        fetchFacility();
-        fetchTimeslots();
+        fetchFacility();;
+        fetchTimeslots()
         // eslint-disable-next-line
-      }, [])
+      }, [user])
   
       useEffect(() => {
+  
         fetchTimeslots();
+   
         setBookings([]);
         // eslint-disable-next-line
       }, [selectedDate])
@@ -85,26 +89,8 @@ const BookingSection = ({ facility_id } : any) => {
       const handleDateChange = (date: Date) => {
         setSelectedDate(date);
       }
-  
-      // useEffect(() => {
-      //   console.log(bookings);
-      // }, [bookings])
-  
+
       const handleBooking = (timeslot: ITimeslot, isRemove : boolean) => {
-      //   export interface ITimeslot {
-      //     id: number;
-      //     date: string;
-      //     time: string;
-      //     facilityName: string;
-      //     isBooked: boolean;
-      // }
-      
-        // export interface IBookedTimeSlot {
-        //   id: number;
-        //   facility: string;
-        //   date: Date;
-        //   time: string
-        // }
         setErrorMessage('');
   
         if (isRemove) {
@@ -180,7 +166,7 @@ const BookingSection = ({ facility_id } : any) => {
 
         {
           user ? 
-          bookedTimeslots.length === timeslots.length ?
+          (bookedTimeslots.length === timeslots.length) ?
             <div className={styles.bookButtonDisabled}>
             <Button buttonStyle={buttonStyle.fill}>Not Available</Button>
             </div>

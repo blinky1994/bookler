@@ -30,8 +30,6 @@ const MyBookingCard = ({ booking } : any) => {
             map[timeslot.date] = [...(map[timeslot.date] || []), timeslot.time]
         }
 
-        const mapArray = Object.keys(map);
-
         return map;
     }
 

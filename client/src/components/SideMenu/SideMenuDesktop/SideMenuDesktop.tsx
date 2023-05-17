@@ -19,6 +19,7 @@ const SideMenuDesktop = () => {
     const handleLogOut = () => {
         navigate('/');
         setUser(null);
+        localStorage.clear();
     }
 
 

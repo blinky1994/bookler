@@ -176,7 +176,7 @@ export async function getBookingFromDB(user_id: number) {
     return bookings;
 }
 
-export async function getTimeslotsByBookingIDFromDB(booking_id : number) {
+export async function getTimeslotsByBookingIDFromDB(booking_id : number, client_user_id: number) {
     const timeslot_ids = (await db.query(`
         SELECT timeslot_id FROM bookings_timeslots WHERE booking_id = '${booking_id}';
     `))[0];
@@ -191,7 +191,21 @@ export async function getTimeslotsByBookingIDFromDB(booking_id : number) {
             WHERE id = '${timeslot_id}';
         `))[0][0];
 
-        timeslots.push(timeslotsData);
+        let isBooked = false;
+        
+        const userData = (await db.query(`
+        SELECT user_id FROM bookings WHERE id = '${booking_id}';
+        `))[0][0];
+
+        if (userData) {
+            const { user_id } = userData;
+            isBooked = (user_id === client_user_id);
+        }
+
+        timeslots.push({
+            ...timeslotsData,
+            isBooked
+        });
     }
 
     return timeslots;

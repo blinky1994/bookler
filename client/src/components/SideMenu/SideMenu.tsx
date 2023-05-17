@@ -16,6 +16,7 @@ const SideMenu = () => {
     const { menu, setMenu } = useContext(MenuContext); 
     const handleLogOut = () => {
         setUser(null);
+        localStorage.clear();
     }
 
     const handleMenu = () => {

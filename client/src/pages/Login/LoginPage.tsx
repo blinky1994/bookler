@@ -5,7 +5,7 @@ import { useState, useEffect, useContext } from 'react'
 import TextInput from '../../components/TextInput/TextInput'
 import { validateLogin } from '../../utils/validateForm'
 import axios from 'axios'
-import { UserContext } from '../../context/user.context'
+import { IUserAccount, UserContext } from '../../context/user.context'
 import { useNavigate } from 'react-router-dom'
 import { MenuContext } from '../../context/menu.context'
 
@@ -25,9 +25,9 @@ const LoginPage = () => {
     const { setMenu } = useContext(MenuContext);
  
     const [formDetails, setFormDetails] = useState<ILoginForm>({
-        email: '',
+        email: 'ivanchenyifan@hotmail.com',
         emailError: '',
-        password: '',
+        password: '111111111111',
         passwordError: ''
     });
 
@@ -47,6 +47,10 @@ const LoginPage = () => {
         });
     }
 
+    const saveUserToStorage = (user: IUserAccount) => {
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
         setErrorMessage('');
         if (validateLogin(formDetails, setFormDetails)) {
@@ -63,12 +67,15 @@ const LoginPage = () => {
                 })
                 console.log(`Successfully logged in: ${JSON.stringify(response.data.user)}`);
                 const {id, email} = response.data.user;
-                setUser({
+
+                const user = {
                     id,
                     email
-                });
+                };
+                setUser(user);
+                saveUserToStorage(user)
+                
                 navigate(-1);
-                // setMenu(false);
                 
             }).catch(err => {
                 console.log('Error logging in: ', err.response.data.error);

@@ -13,4 +13,4 @@ bookingsRouter.post('/', addBooking);
 bookingsRouter.post('/update', updateBooking);
 bookingsRouter.get('/users/:user_id', getBooking);
 bookingsRouter.delete('/:booking_id/cancel', cancelBooking);
-bookingsRouter.get('/timeslots/:booking_id', getTimeslotsByBookingID);
+bookingsRouter.get('/timeslots/:user_id/:booking_id', getTimeslotsByBookingID);

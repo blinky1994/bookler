@@ -1,4 +1,4 @@
-import { createContext, useState, Dispatch, SetStateAction, ReactNode} from 'react';
+import { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect} from 'react';
 
 export interface IUserAccount {
     id: string;
@@ -18,7 +18,19 @@ interface IUserContextProviderProps {
   }
 
 export const UserContextProvider : React.FC<IUserContextProviderProps> = ({ children }) => {
-        const [user, setUser] = useState<IUserAccount | null>(null);
+    const [user, setUser] = useState<IUserAccount | null>(null);
+
+    const fetchUserFromStorage = () => {
+        if (!user) {
+          const userString = localStorage.getItem('user');
+          const userObj = userString ? JSON.parse(userString) : null;
+          setUser(userObj);
+        }
+      }
+
+    useEffect(() => {
+        fetchUserFromStorage();
+    }, [])
     
     return (
         <UserContext.Provider value={{user, setUser}}>{children}</UserContext.Provider>
