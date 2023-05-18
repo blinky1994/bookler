@@ -28,9 +28,10 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen, setCon
 
     async function fetchTimeslots() {
         try {
-            const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/${user!.id}/timeslots`);
+            const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/${user!.id}/${booking_id}/timeslots`);
 
             const { timeslots } = response.data;
+            console.log(timeslots);
             const dateTime = timeslots[0].start_time;
             setDate(getDateString(dateTime));
             if (facility) {
@@ -151,11 +152,6 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen, setCon
     <hr></hr>
         {
           user ? 
-          (bookedTimeslots.length > 0 && bookedTimeslots.length === timeslots.length) ?
-            <div className={styles.bookButtonDisabled}>
-            <Button buttonStyle={buttonStyle.fill}>Not Available</Button>
-            </div>
-          :
             <div className={styles.buttonSection}>
                  <Button onClick={handleUpdateButton} buttonStyle={buttonStyle.fill}>Update booking</Button>
                  <div className={styles.deleteButton}>

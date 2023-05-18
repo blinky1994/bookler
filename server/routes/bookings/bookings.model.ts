@@ -73,7 +73,6 @@ async function processTimeslots(booking_id: number, timeslots: number[]) {
 }
 
 export async function updateBookingInDB(booking_id : number, timeslots: number[]) {
-    await checkTimeSlotsAvailable(timeslots);
     const bookings = await db.query(`
         SELECT id FROM bookings WHERE id = '${booking_id}'
     `)
@@ -109,7 +108,7 @@ export async function updateBookingInDB(booking_id : number, timeslots: number[]
             status: "Deleted"
         }
     }
-
+    await checkTimeSlotsAvailable(timeslots);
     await processTimeslots(booking_id, timeslots);
 
     return {

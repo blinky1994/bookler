@@ -3,7 +3,9 @@ import {
     getFacilitiesFromDB, 
     getFacilityFromDB, 
     getCategoriesFromDB, 
-    getFacilityTimeSlotsFromDB } 
+    getFacilityTimeSlotsFromDB,
+    getFacilityTimeSlotsByBookingIDFromDB
+} 
 from "./facilities.model";
 
 export async function getFacilities(req: Request, res: Response) {
@@ -45,6 +47,26 @@ export async function getFacilityTimeSlots(req: Request, res: Response) {
         const timeslots = await getFacilityTimeSlotsFromDB(
             parseInt(facility_id, 10),
             parseInt(user_id, 10)
+        );
+        console.log('Successfully retrieved timeslots');
+        res.status(200).json({
+            timeslots
+        })
+    } catch (err : any) {
+        console.log('Error retrieving timeslots: ', err);
+        res.status(400).json({
+            error: err.toString()
+        })
+    }
+}
+
+export async function getFacilityTimeSlotsByBookingID(req: Request, res: Response) {
+    try {
+        const { facility_id, user_id, booking_id } = req.params;
+        const timeslots = await getFacilityTimeSlotsByBookingIDFromDB(
+            parseInt(facility_id, 10),
+            parseInt(user_id, 10),
+            parseInt(booking_id, 10)
         );
         console.log('Successfully retrieved timeslots');
         res.status(200).json({

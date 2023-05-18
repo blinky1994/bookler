@@ -105,8 +105,59 @@ export async function getFacilityTimeSlotsFromDB(facility_id: number, client_use
             isBooked
         })
     }
+
+    console.log(timeslots);
     return timeslots;
 }
+
+export async function getFacilityTimeSlotsByBookingIDFromDB(facility_id: number, client_user_id: number, booking_id: number) {
+    const timeslotsData = await db.query(`
+        SELECT id, start_time, end_time, slots FROM timeslots
+        WHERE facility_id = '${facility_id}'
+    `);
+
+    if (!timeslotsData[0].length) throw new Error('No timeslots found');
+
+    const timeslots = [];
+
+    for (const data of timeslotsData[0]) {
+        const { id, start_time, end_time, slots } = data;
+
+        const date = (new Date(start_time));
+
+        let isBooked = false;
+
+        const bookingData = (await db.query(`
+        SELECT booking_id FROM bookings_timeslots WHERE timeslot_id = '${id}' 
+        AND booking_id = '${booking_id}'
+        ;
+        `))[0][0];
+
+        if (bookingData) {
+            const { booking_id } = bookingData;
+            const userData = (await db.query(`
+                SELECT user_id FROM bookings WHERE id = '${booking_id}';
+            `))[0][0];
+
+            if (userData) {
+                const { user_id } = userData;
+                isBooked = (user_id === client_user_id);
+            }
+        }
+
+        timeslots.push({
+            id,
+            date,
+            start_time, 
+            end_time,
+            slots,
+            isBooked
+        })
+    }
+
+    return timeslots;
+}
+
 
 
 export async function getCategoriesFromDB() {
