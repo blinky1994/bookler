@@ -31,9 +31,19 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen, setCon
             const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/${user!.id}/${booking_id}/timeslots`);
 
             const { timeslots } = response.data;
-            console.log(timeslots);
-            const dateTime = timeslots[0].start_time;
-            setDate(getDateString(dateTime));
+            let dateTime = '';
+            for (const timeslot of timeslots) {
+              if (timeslot.isBooked) {
+                dateTime = timeslot.start_time;
+              }
+            }
+            if (!dateTime) {
+              dateTime = timeslots[0].start_time;
+            } else {
+              console.log(getDateString(dateTime));
+              setDate(getDateString(dateTime));
+            }
+           
             if (facility) {
               console.log({dateTime});
               const filteredTimeSlots = filterTimeslotsByDate(new Date(dateTime), timeslots);

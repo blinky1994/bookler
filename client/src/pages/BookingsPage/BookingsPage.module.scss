@@ -13,6 +13,7 @@
 .bookings {
     display: flex;
     flex-direction: column;
+    margin-bottom: 1.6rem;
 
     .noBookingsMessage {
         font-weight: normal;
@@ -38,7 +39,7 @@
     }
 
     .bookings {
-        gap: 4rem;
+        gap: 2.4rem;
         
     .noBookingsMessage {
         font-weight: normal;

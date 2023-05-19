@@ -1,6 +1,10 @@
 .main {
     margin: 1.2rem;
 
+    hr {
+        margin: 2rem 0;
+    }
+
     .logInLink {
         font-weight: bold;
         text-decoration: none;
@@ -63,5 +67,7 @@
     .main {
         max-width: 80rem;
         margin: auto;
+        padding: 0 2rem;
     }
+    
 }

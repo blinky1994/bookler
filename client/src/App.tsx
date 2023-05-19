@@ -27,13 +27,17 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/facilities/:category_id" element={<FacilitiesPage />} />
               <Route path="/facilities/facility/:facility_id" element={<FacilityPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
+
               <Route path="/bookings" element={<BookingsPage />} />
+
+
             </Routes>
           </div>
-
           </div>
+          <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+            </Routes>
         </BrowserRouter>
       </MenuContextProvider>
     </UserContextProvider>

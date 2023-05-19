@@ -26,12 +26,12 @@ const BookingSection = ({ facility_id } : any) => {
 
     const userContext = useContext(UserContext);
     const user = userContext!.user;
-    const setUser = userContext!.setUser;
 
     async function fetchTimeslots() {
         try {
-            const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/${user!.id}/timeslots`);
-            const { timeslots } = response.data;
+          const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}/${user!.id}/timeslots`);
+          const { timeslots } = response.data;
+          
             setDates(getDatesInISOString(timeslots));
             if (facility && selectedDate) {
               const filteredTimeSlots = filterTimeslotsByDate(selectedDate, timeslots);
@@ -40,7 +40,7 @@ const BookingSection = ({ facility_id } : any) => {
               setBookedTimeslots(formattedTimeSlots.filter(timeslot => timeslot.slots === 0));
             } 
           } catch (err: any) {
-            console.log('Error fetching timeslots: ', err.response.data.error);
+            console.error('Error fetching timeslots: ', err.response.data.error);
           }
       }
   
@@ -62,8 +62,24 @@ const BookingSection = ({ facility_id } : any) => {
             console.log('Error fetching facility: ', err.response.data.error);
           }
         }
-        fetchFacility();;
-        fetchTimeslots()
+        fetchFacility();
+        fetchTimeslots();
+        // eslint-disable-next-line
+      }, [])
+
+      useEffect(() => {
+        async function fetchFacility() {
+          try {
+            const response = await axios.get(`http://localhost:3001/facilities/facility/${facility_id}`);
+     
+            const { facility } = response.data;
+            setFacility(facility);
+          } catch (err: any) {
+            console.log('Error fetching facility: ', err.response.data.error);
+          }
+        }
+        fetchFacility();
+        fetchTimeslots();
         // eslint-disable-next-line
       }, [user])
   
@@ -135,8 +151,13 @@ const BookingSection = ({ facility_id } : any) => {
   return (
     <>
     <div className={styles.main}>
+
+
+    {
+      user ? 
+<>
     <hr></hr>
-        <div className={styles.dateHeader}>
+    <div className={styles.dateHeader}>
           <h3>Date</h3>
             {
             selectedDate && 
@@ -165,7 +186,6 @@ const BookingSection = ({ facility_id } : any) => {
         }
 
         {
-          user ? 
           (bookedTimeslots.length === timeslots.length) ?
             <div className={styles.bookButtonDisabled}>
             <Button buttonStyle={buttonStyle.fill}>Not Available</Button>
@@ -174,17 +194,21 @@ const BookingSection = ({ facility_id } : any) => {
             <div className={styles.bookButton}>
             <Button onClick={handleBookButton} buttonStyle={buttonStyle.fill}>Book</Button>
             </div>
-          :
-          <div className={styles.loginMessage}>
-
-              <Link to={'/login'}>
-                <span className={styles.logInLink}>Log in</span>
-              </Link>
-              <span> to book</span>
-          </div>
-
         }
-    </div>
+      </>
+      :
+      <div className={styles.loginMessage}>
+
+      <Link to={'/login'}>
+        <span className={styles.logInLink}>Log in</span>
+      </Link>
+      <span> to book</span>
+      </div>
+
+    }
+    
+
+      </div>
     {
         modalOpen && 
         <ModalBookConfirm 

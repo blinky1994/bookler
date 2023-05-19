@@ -5,3 +5,10 @@
 .body {
     width: 100%;
 }
+
+@media (min-width: 700px) {
+    .body {
+        width: 100%;
+        margin-left: 24rem;
+    }
+}

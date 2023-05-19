@@ -47,5 +47,13 @@
             font-weight: bold;
             color: red;
         }
+
+        .signupMessage {
+            margin-top: 1.6rem;
+            font-size: 1.2rem;
+            span {
+                text-decoration: underline;
+            }
+        }
     }
 }

@@ -1,13 +1,12 @@
 import styles from './LoginPage.module.scss'
 import Button, { buttonStyle } from '../../components/Button/Button'
 import { Link } from 'react-router-dom'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useContext } from 'react'
 import TextInput from '../../components/TextInput/TextInput'
 import { validateLogin } from '../../utils/validateForm'
 import axios from 'axios'
 import { IUserAccount, UserContext } from '../../context/user.context'
 import { useNavigate } from 'react-router-dom'
-import { MenuContext } from '../../context/menu.context'
 
 export interface ILoginForm {
     email: string;
@@ -21,13 +20,11 @@ const LoginPage = () => {
     const setUser = value!.setUser;
 
     const navigate = useNavigate();
-
-    const { setMenu } = useContext(MenuContext);
  
     const [formDetails, setFormDetails] = useState<ILoginForm>({
-        email: 'ivanchenyifan@hotmail.com',
+        email: '',
         emailError: '',
-        password: '111111111111',
+        password: '',
         passwordError: ''
     });
 
@@ -45,6 +42,10 @@ const LoginPage = () => {
             ...formDetails,
             [name] : value,
         });
+    }
+
+    const handleSignUpButton = () => {
+        navigate('/signup')
     }
 
     const saveUserToStorage = (user: IUserAccount) => {
@@ -89,7 +90,6 @@ const LoginPage = () => {
     <div className={styles.main}>
         <h1>Bookler</h1>
         <div className={styles.content}>
-            
             <div className={styles.formFields}>
                 <h2>Log In</h2>
                 <TextInput name='email' value={formDetails.email} onChange={handleChange} type="text" placeholder='Email' error={formDetails.emailError}/>
@@ -104,6 +104,11 @@ const LoginPage = () => {
                     <Button buttonStyle={buttonStyle.stroke}>Back</Button>
                 </Link>
             </div>
+            
+            <div className={styles.signupMessage}>
+                <h3>Click <span onClick={handleSignUpButton}>here</span> to sign up</h3>
+            </div>
+     
 
         </div>
     </div>

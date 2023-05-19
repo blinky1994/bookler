@@ -51,6 +51,10 @@ const SignUpPage = () => {
         })
     }
 
+    const handleBackButton = () => {
+        navigate(-1);
+    }
+
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
         setErrorMessage('');
         if (validateSignUp(formDetails, setFormDetails)) {
@@ -99,9 +103,7 @@ const SignUpPage = () => {
                 }
                 <div className={styles.buttons}>
                     <Button onClick={handleSubmit} buttonStyle={buttonStyle.fill}>Sign Up</Button>
-                    <Link to={'/'} >
-                        <Button buttonStyle={buttonStyle.stroke}>Back</Button>
-                    </Link>
+                    <Button onClick={handleBackButton} buttonStyle={buttonStyle.stroke}>Back</Button>
                 </div>
     
             </div>
