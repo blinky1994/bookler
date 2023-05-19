@@ -7,12 +7,10 @@ import axios from 'axios'
 import Button, { buttonStyle } from '../../../components/Button/Button'
 import { formatTimeData, getDateString, filterTimeslotsByDate } from '../../../utils/formatDateTime'
 import Timeslots from '../../../components/Timeslots/Timeslots'
-import { useNavigate } from 'react-router-dom'
 
 const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen, setConfirmedBookings, setCurrentPage } : any) => {
     const [facility, setFacility] = useState<IFacility>();
     const [timeslots, setTimeslots] = useState<ITimeslot[]>([]);
-    const [bookedTimeslots, setBookedTimeslots] = useState<ITimeslot[]>([]);
     const [hasUpdatedBookings, setHasUpdatedBookings] = useState<boolean>(false);
 
     const [date, setDate] = useState<string>([]);
@@ -24,7 +22,6 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen, setCon
     const userContext = useContext(UserContext);
     const user = userContext!.user;
 
-    const navigate = useNavigate();
 
     async function fetchTimeslots() {
         try {
@@ -49,7 +46,6 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen, setCon
               const filteredTimeSlots = filterTimeslotsByDate(new Date(dateTime), timeslots);
               const formattedTimeSlots = formatTimeData(filteredTimeSlots, facility!.name);
               setTimeslots(formattedTimeSlots);
-              setBookedTimeslots(formattedTimeSlots.filter(timeslot => timeslot.slots === 0));
 
               if (!hasUpdatedBookings) {
                 updateCurrentBookings(formatTimeData(timeslots, facility!.name));
