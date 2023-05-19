@@ -10,7 +10,7 @@ const DeleteConfirmSection = ({date, setCurrentPage, booking_id, booking} : any)
     const handleConfirmButton = () => {
         async function deleteBooking() {
             try {
-              const response = await axios.post('http://localhost:3001/bookings/update', {
+              const response = await axios.post('http://localhost:3001/api/bookings/update', {
                 booking_id,
                 timeslots: []
               });

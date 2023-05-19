@@ -16,7 +16,7 @@ const BookingsPage = () => {
 
     async function fetchBookings() {
         try {
-            const response = await axios.get(`http://localhost:3001/bookings/users/${user!.id}`);
+            const response = await axios.get(`http://localhost:3001/api/bookings/users/${user!.id}`);
             const { bookings } = response.data;
             const formattedBookings = formatBookings(bookings);
             setBookings(formattedBookings);

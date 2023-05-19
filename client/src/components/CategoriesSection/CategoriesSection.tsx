@@ -10,7 +10,7 @@ const CategoriesSection = () => {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const response = await axios.get('http://localhost:3001/facilities/categories/all');
+        const response = await axios.get('http://localhost:3001/api/facilities/categories/all');
         const { categories } = response.data;
         setCategories(categories)
       } catch (err: any) {

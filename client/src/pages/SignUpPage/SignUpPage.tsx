@@ -60,7 +60,7 @@ const SignUpPage = () => {
         if (validateSignUp(formDetails, setFormDetails)) {
             const { email, password } = formDetails;
             
-            axios.post('http://localhost:3001/signup', {
+            axios.post('http://localhost:3001/api/signup', {
                 email, password
             })
             .then(response => {
