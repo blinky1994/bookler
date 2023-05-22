@@ -1,0 +1,21 @@
+{
+  "name": "bookler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install-server": "npm install --prefix server",
+    "install-client": "npm install --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blinky1994/bookler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blinky1994/bookler/issues"
+  },
+  "homepage": "https://github.com/blinky1994/bookler#readme"
+}

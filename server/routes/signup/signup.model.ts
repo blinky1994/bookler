@@ -5,7 +5,7 @@ export async function createUser(email: string, password: string) {
     let sql = `
     SELECT email FROM users WHERE email = '${email}';
     `;
-
+    
     const response = await db.query(sql);
     console.log('create user:' ,response[0][0]);
     if (response[0][0]) throw new Error('User already exists!');

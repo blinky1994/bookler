@@ -1,13 +1,13 @@
 import styles from './SignUpPage.module.scss'
 import Button, { buttonStyle } from '../../components/Button/Button'
-import { Link } from 'react-router-dom'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useContext } from 'react'
 import TextInput from '../../components/TextInput/TextInput'
 import { validateSignUp } from '../../utils/validateForm'
 import axios from 'axios';
 import { UserContext } from '../../context/user.context'
 import { useNavigate } from 'react-router-dom'
 import { MenuContext } from '../../context/menu.context'
+import { IUserAccount } from '../../context/user.context'
 
 export interface ISignUpForm {
     email: string;
@@ -42,6 +42,9 @@ const SignUpPage = () => {
     //     console.log(`email:${formDetails.email} pass:${formDetails.password} confirm:${formDetails.confirmPassword}`);
     // }, [formDetails])
 
+    const saveUserToStorage = (user: IUserAccount) => {
+        localStorage.setItem('user', JSON.stringify(user));
+    }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -74,10 +77,11 @@ const SignUpPage = () => {
                 })
                 console.log(`Successfully created user: ${JSON.stringify(response.data.user)}`);
                 const {id, email} = response.data.user;
-                setUser({
-                    id,
-                    email
-                });
+                const user = {
+                    id, email
+                }
+                setUser(user);
+                saveUserToStorage(user);
                 navigate('/');
                 // setMenu(false);
             }).catch(err => {
