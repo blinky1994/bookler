@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  bookler_app:
+    container_name: bookler_app
+    build: ./
+    command: npm --prefix server start
+    working_dir: /app
+    ports:
+      - "3001:3001"
+
+
+  bookler_db:
+    container_name: bookler_db
+    build: ./mysql
+    ports:
+      - "3307:3306"
+    environment:
+        - MYSQL_ROOT_HOST=localhost
+        # Change back to OG password 
+        - MYSQL_ROOT_PASSWORD=12345 
+        - MYSQL_DATABASE=bookler-app
+    volumes:
+      - ./mysql/bookler_app_dump.sql:/docker-entrypoint-initdb.d/bookler_app_dump.sql
+  

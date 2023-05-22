@@ -54,6 +54,10 @@
             span {
                 text-decoration: underline;
             }
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 }

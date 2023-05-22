@@ -26,7 +26,7 @@ const BookConfirmPageOne = ({handleModalOpen, bookings, user, setCurrentPage} : 
                     user_id: user!.id,
                     timeslots: bookings.map(booking => booking.id)
                 }
-                await axios.post('http://localhost:3001/api/bookings', userData);
+                await axios.post('api/bookings', userData);
                 setCurrentPage(2);
             } catch (err: any) {
                 console.log('Error making a booking', err.response.data.error)

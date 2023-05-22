@@ -106,7 +106,6 @@ export async function getFacilityTimeSlotsFromDB(facility_id: number, client_use
         })
     }
 
-    console.log(timeslots);
     return timeslots;
 }
 
