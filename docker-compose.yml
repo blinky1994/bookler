@@ -27,5 +27,4 @@ services:
         - MYSQL_ROOT_PASSWORD=12345 
         - MYSQL_DATABASE=booklerapp
     volumes:
-      - ./mysql/bookler_app_dump.sql:/docker-entrypoint-initdb.d/bookler_app_dump.sql
       - ./mysql/data:/var/lib/mysql
