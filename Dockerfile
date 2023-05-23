@@ -18,5 +18,3 @@ COPY server/ server/
 USER node
 
 CMD ["npm", "start", "--prefix", "server"]
-
-EXPOSE 3001
