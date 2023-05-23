@@ -25,7 +25,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen, setCon
 
     async function fetchTimeslots() {
         try {
-            const response = await axios.get(`api/facilities/facility/${facility_id}/${user!.id}/${booking_id}/timeslots`);
+            const response = await axios.get(`/api/facilities/facility/${facility_id}/${user!.id}/${booking_id}/timeslots`);
 
             const { timeslots } = response.data;
             let dateTime = '';
@@ -59,7 +59,7 @@ const UpdateBookingSection = ({ facility_id, booking_id, handleModalOpen, setCon
 
       async function fetchFacility() {
         try {
-          const response = await axios.get(`api/facilities/facility/${facility_id}`);
+          const response = await axios.get(`/api/facilities/facility/${facility_id}`);
           const { facility } = response.data;
           setFacility(facility);
         } catch (err: any) {

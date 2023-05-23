@@ -16,7 +16,6 @@ services:
     depends_on:
         - bookler_db
 
-
   bookler_db:
     container_name: bookler_db_container
     build: ./mysql

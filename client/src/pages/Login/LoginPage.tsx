@@ -56,7 +56,7 @@ const LoginPage = () => {
         setErrorMessage('');
         if (validateLogin(formDetails, setFormDetails)) {
             const { email, password } = formDetails;
-            axios.post('api/login', {
+            axios.post('/api/login', {
                 email, password
             })
             .then(response => {
