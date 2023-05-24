@@ -25,7 +25,7 @@ const CategoriesSection = () => {
         <h2>All Facilities</h2>
         <div className={styles.cardsSection}>
           {
-                categories.length && 
+                categories.length > 0 && 
                 categories.map((categoryObj: ICategory, idx) => 
                 <CategoryCard 
                   key={categoryObj.name + idx}
