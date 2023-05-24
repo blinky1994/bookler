@@ -35,6 +35,15 @@
     .bookButtonDisabled {
         @extend .button;
         opacity: 0.5;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .refreshMessage {
+            margin-top: 1rem;
+            font-size: 1.4rem;
+        }
     }
 
     .dateHeader {

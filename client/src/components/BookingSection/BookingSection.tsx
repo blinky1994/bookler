@@ -29,7 +29,7 @@ const BookingSection = ({ facility_id } : any) => {
 
     async function fetchTimeslots() {
         try {
-          const response = await axios.get(`${process.env.REACT_APP_API_URL || ''}/api/facilities/facility/${facility_id}/${user!.id}/timeslots`);
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/facilities/facility/${facility_id}/${user!.id}/timeslots`);
           const { timeslots } = response.data;
           
             setDates(getDatesInISOString(timeslots));
@@ -54,7 +54,7 @@ const BookingSection = ({ facility_id } : any) => {
       useEffect(() => {
         async function fetchFacility() {
           try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL || ''}/api/facilities/facility/${facility_id}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/facilities/facility/${facility_id}`);
      
             const { facility } = response.data;
             setFacility(facility);
@@ -70,7 +70,7 @@ const BookingSection = ({ facility_id } : any) => {
       useEffect(() => {
         async function fetchFacility() {
           try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL || ''}/api/facilities/facility/${facility_id}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/facilities/facility/${facility_id}`);
      
             const { facility } = response.data;
             setFacility(facility);
@@ -189,6 +189,7 @@ const BookingSection = ({ facility_id } : any) => {
           (bookedTimeslots.length === timeslots.length) ?
             <div className={styles.bookButtonDisabled}>
             <Button buttonStyle={buttonStyle.fill}>Not Available</Button>
+            <span className={styles.refreshMessage}>Try selecting a date to refresh timeslots</span>
             </div>
           :
             <div className={styles.bookButton}>
