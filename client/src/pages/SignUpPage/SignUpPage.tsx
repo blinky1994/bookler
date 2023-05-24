@@ -63,7 +63,7 @@ const SignUpPage = () => {
         if (validateSignUp(formDetails, setFormDetails)) {
             const { email, password } = formDetails;
             
-            axios.post('/api/signup', {
+            axios.post(`${process.env.REACT_APP_API_URL}/api/signup`, {
                 email, password
             })
             .then(response => {

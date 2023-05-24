@@ -10,7 +10,7 @@ const UpdateConfirmSection = ({date, setCurrentPage, booking_id, confirmedBookin
             try {
               const timeslot_ids = confirmedBookings.map((booking : IBookedTimeSlot) => booking.timeslot.id);
               const timeslot_ids_set = new Set(timeslot_ids);
-              const response = await axios.post('/api/bookings/update', {
+              const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/bookings/update`, {
                 booking_id,
                 timeslots: Array.from(timeslot_ids_set)
               });

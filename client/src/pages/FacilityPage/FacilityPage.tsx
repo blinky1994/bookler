@@ -23,7 +23,7 @@ const FacilityPage = () => {
     useEffect(() => {
       async function fetchFacility() {
         try {
-          const response = await axios.get(`/api/facilities/facility/${facility_id}`);
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/facilities/facility/${facility_id}`);
           const { facility } = response.data;
           setFacility(facility)
         } catch (err: any) {

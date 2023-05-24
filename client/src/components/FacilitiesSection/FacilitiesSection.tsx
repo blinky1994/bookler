@@ -15,7 +15,7 @@ const FacilitiesSection = () => {
   useEffect(() => {
     async function fetchfacilities() {
       try {
-        const response = await axios.get(`/api/facilities/${category_id}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/facilities/${category_id}`);
         const { facilities } = response.data;
         setFacilities(facilities)
       } catch (err: any) {
