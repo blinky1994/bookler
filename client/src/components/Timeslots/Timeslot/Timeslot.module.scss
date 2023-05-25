@@ -3,21 +3,25 @@
 }
 
 .main {
-    border: 1px solid black;
+    border: none;
     width: 12rem;
     display: flex;
     flex-direction: column;
     text-align: center;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.521);
+    border-radius: 0.65rem;
+    transition: all 0.2s;
 
     &:hover {
         cursor: pointer;
-        background-color: #dfdfdf;
+        background-color: #f3f3f3;
+        transform: scale(1.05);
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.747);
     }
 }
 
 .default {
     @extend .main;
-    border: 1px solid black;
     
     span {
         font-weight: normal;
@@ -31,6 +35,7 @@
 .selected {
     @extend .main;
     background-color: rgb(165, 255, 143);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.521);
     span {
         font-weight: bold;
         margin: 1rem 0;

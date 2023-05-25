@@ -29,8 +29,7 @@ const CategoriesSection = () => {
                 categories.map((categoryObj: ICategory, idx) => 
                 <CategoryCard 
                   key={categoryObj.name + idx}
-                  id={categoryObj.id}
-                  name={categoryObj.name}
+                  {...categoryObj}
                 />)
             }
             

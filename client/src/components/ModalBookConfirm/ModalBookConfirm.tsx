@@ -93,7 +93,9 @@ const BookConfirmPageTwo = ({handleModalOpen} : IModalConfirmPageProps) => {
     return (
         <div className={styles.pageTwoSection}>
         <div className={styles.headerSection}>
-            <Icon_Tick />
+            <div className={styles.iconTick}>
+                <Icon_Tick />
+            </div>
             <h1>Booking is successful</h1>
         </div> 
 

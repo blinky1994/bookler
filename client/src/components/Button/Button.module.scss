@@ -1,7 +1,9 @@
 .main {
     padding: 0.8rem 1.6rem;
     min-width: 16rem;
-
+    border-radius: 12rem;
+    transition: all 0.2s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
     span {
         font-size: 1.4rem;
     }
@@ -16,34 +18,36 @@
     color: white;
     @extend .shared;
 
+
     &:hover {
         cursor: pointer;
-        background-color: #555555;
-        border-color: #555555;
+        transform: scale(1.05);
     }
 }
 
 .delete {
-    background-color: #c72323;
-    border-color: #c72323;
+    border: none;
+    background-color: #c23939;
     color: white;
     @extend .shared;
 
+
     &:hover {
         cursor: pointer;
-        background-color: #d16161;
-        border-color: #d16161;
-        
+        transform: scale(1.05);
     }
+
 }
 
 .stroke {
+    border: none;
     color: blue($color: #000000);
     background-color: white;
     @extend .shared;
 
     &:hover {
         cursor: pointer;
-        background-color: #dfdfdf;
+        background-color: rgb(235, 235, 235);
+        transform: scale(1.05);
     }
 }

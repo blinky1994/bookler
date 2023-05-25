@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 type CategoryCardProps = ICategory;
 
-const CategoryCard: React.FC<CategoryCardProps> = ({name, id}) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({name, id, image_url}) => {
   const navigate = useNavigate();
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -14,6 +14,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({name, id}) => {
   return (
     <div onClick={handleClick} className={styles.main}>
         <div className={styles.content}>
+            <img className={styles.bgImage} src={image_url}></img>
             <h2>{name}</h2>
         </div>
     </div>

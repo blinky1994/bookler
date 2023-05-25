@@ -161,18 +161,20 @@ export async function getFacilityTimeSlotsByBookingIDFromDB(facility_id: number,
 
 export async function getCategoriesFromDB() {
     const categories = await db.query(`
-        SELECT id, name FROM categories;
+        SELECT id, name, image_url FROM categories;
     `)
 
     interface ICategory {
         id: number;
         name: string;
+        image_url: string;
     }
 
     const categoriesMapped = categories[0].map((categoryObj : ICategory) => {
         return {
             id: categoryObj.id,
-            name: categoryObj.name
+            name: categoryObj.name,
+            image_url: categoryObj.image_url
         }
     });
 

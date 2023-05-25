@@ -154,12 +154,13 @@ exports.getFacilityTimeSlotsByBookingIDFromDB = getFacilityTimeSlotsByBookingIDF
 function getCategoriesFromDB() {
     return __awaiter(this, void 0, void 0, function* () {
         const categories = yield db_1.default.query(`
-        SELECT id, name FROM categories;
+        SELECT id, name, image_url FROM categories;
     `);
         const categoriesMapped = categories[0].map((categoryObj) => {
             return {
                 id: categoryObj.id,
-                name: categoryObj.name
+                name: categoryObj.name,
+                image_url: categoryObj.image_url
             };
         });
         return categoriesMapped;

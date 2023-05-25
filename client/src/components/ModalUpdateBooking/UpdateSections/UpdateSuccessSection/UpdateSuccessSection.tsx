@@ -14,7 +14,10 @@ const UpdateSuccessSection = ({handleModalOpen} : any) => {
     return (
         <div className={styles.main}>
         <div className={styles.headerSection}>
-            <Icon_Tick />
+            <div className={styles.iconTick}>
+                <Icon_Tick />
+            </div>
+
             <h1>Booking updated successfully</h1>
         </div> 
   

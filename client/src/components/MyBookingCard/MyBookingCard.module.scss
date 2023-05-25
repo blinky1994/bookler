@@ -1,8 +1,11 @@
 .main {
-    border: 1px solid black;
+    border: none;
     padding: 1.2rem;
     margin: 1.6rem;
     margin-top: 0;
+    border-radius: 0.8rem;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.473);
+    transition: all 0.2s;
 
     h3 {
         font-size: 1.6rem;
@@ -65,7 +68,8 @@
     .main {
         &:hover {
             cursor: pointer;
-            background-color: #dfdfdf;
+            transform: scale(1.01);
+            background-color: rgb(233, 233, 233);
         }
     }
 }

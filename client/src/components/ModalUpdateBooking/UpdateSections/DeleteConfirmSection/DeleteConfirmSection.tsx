@@ -59,7 +59,7 @@ const DeleteConfirmSection = ({date, setCurrentPage, booking_id, booking} : any)
             </div>
         </div>
         <div className={styles.buttonsSection}>
-                <Button onClick={handleConfirmButton} buttonStyle={buttonStyle.fill}>Confirm</Button>
+                <Button onClick={handleConfirmButton} buttonStyle={buttonStyle.delete}>Confirm</Button>
                 <Button onClick={handleBackButton} buttonStyle={buttonStyle.stroke}>Back</Button>
         </div>
     </div>

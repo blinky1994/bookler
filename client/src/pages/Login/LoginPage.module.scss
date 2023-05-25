@@ -51,10 +51,10 @@
             font-size: 1.2rem;
             span {
                 text-decoration: underline;
-            }
-
-            &:hover {
-                cursor: pointer;
+                &:hover {
+                    cursor: pointer;
+                    color: rgb(104, 104, 104);
+                }
             }
         }
     }

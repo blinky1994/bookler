@@ -17,7 +17,8 @@ const FacilityCard: React.FC<FacilityCardProps> = (facility) => {
   return (
     <div onClick={handleClick} className={styles.main}>
         <div className={styles.content}>
-            <h2>{name}</h2>
+          <img className={styles.bgImage} src={facility.image_url}></img>
+          <h2>{name}</h2>
         </div>
     </div>
   )

@@ -58,6 +58,7 @@ const SideMenuDesktop = () => {
         </div>
         :
         <div className={styles.contentWithoutUser}>
+            <h1>Bookler</h1>
             <span>Login to manage bookings</span>
             <Link to={'/login'}>
                 <Button buttonStyle={buttonStyle.fill}>Log In</Button>
